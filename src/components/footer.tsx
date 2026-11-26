@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { contactHref, nav, site } from "@/config/site";
-import { Container } from "./ui";
+import { Container, InstitutionName } from "./ui";
 import { Logo } from "./logo";
 
 export function Footer() {
@@ -11,11 +11,11 @@ export function Footer() {
         <div>
           <Logo />
           <p className="mt-4 max-w-sm text-sm leading-relaxed">
-            {site.tagline} Projetos, talentos e formação tecnológica do curso de {site.course} em{" "}
-            {site.city}.
+            {site.tagline} Comunidade e portfólio dos estudantes de {site.course} da{" "}
+            <InstitutionName className="font-semibold text-paper/90" /> — {site.city}.
           </p>
           <p className="mt-6 text-xs text-paper/45">
-            Feito por estudantes e professores de ADS.{" "}
+            Iniciativa acadêmica de estudantes e professores de ADS da {site.institution.name}.{" "}
             <a href={site.repo} className="underline decoration-gold underline-offset-4 hover:text-paper">
               Contribua no GitHub
             </a>
