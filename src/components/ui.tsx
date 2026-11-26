@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { site } from "@/config/site";
 import type { ComponentProps, ReactNode } from "react";
 
 export function Container({ className = "", ...props }: ComponentProps<"div">) {
@@ -169,5 +170,16 @@ export function Avatar({ src, name, initials, size = "md" }: { src?: string; nam
 export function EmptyState({ children }: { children: ReactNode }) {
   return (
     <div className="rounded-2xl border border-dashed border-line p-10 text-center text-mute">{children}</div>
+  );
+}
+
+/** Nome da instituição; vira link quando `site.institution.url` estiver preenchido. */
+export function InstitutionName({ className = "" }: { className?: string }) {
+  const { name, url } = site.institution;
+  if (!url) return <span className={`whitespace-nowrap ${className}`}>{name}</span>;
+  return (
+    <a href={url} target="_blank" rel="noopener noreferrer" className={`whitespace-nowrap underline decoration-gold/60 underline-offset-4 hover:decoration-gold ${className}`}>
+      {name}
+    </a>
   );
 }

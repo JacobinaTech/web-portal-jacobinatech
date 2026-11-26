@@ -18,7 +18,8 @@ export async function generateMetadata(props: PageProps<"/projetos/[slug]">): Pr
   return {
     title: p.titulo,
     description: p.resumo,
-    openGraph: { title: p.titulo, description: p.resumo, images: p.capa ? [p.capa] : undefined },
+    // Um openGraph próprio substitui o herdado do layout: sem capa, reaponta para a imagem padrão do site.
+    openGraph: { title: p.titulo, description: p.resumo, images: [p.capa ?? "/opengraph-image.png"] },
   };
 }
 

@@ -1,6 +1,7 @@
 import { HeroConstellation } from "@/components/hero-constellation";
 import { Serra } from "@/components/serra";
-import { AccentBar, Button, Container, Eyebrow, NightBackdrop } from "@/components/ui";
+import { AccentBar, Button, Container, Eyebrow, InstitutionName, NightBackdrop } from "@/components/ui";
+import { site } from "@/config/site";
 
 export function Hero({ projeto }: { projeto?: { titulo: string } }) {
   return (
@@ -26,6 +27,10 @@ export function Hero({ projeto }: { projeto?: { titulo: string } }) {
               Fazer parte
             </Button>
           </div>
+          <p className="mt-10 text-sm text-paper/65">
+            Uma iniciativa do curso de <abbr title={site.course} className="no-underline">ADS</abbr> da{" "}
+            <InstitutionName className="font-semibold text-paper" />.
+          </p>
         </div>
         <div className="hidden sm:block">
           <HeroConstellation projeto={projeto} />

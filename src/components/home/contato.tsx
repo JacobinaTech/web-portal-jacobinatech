@@ -1,4 +1,4 @@
-import { AccentBar, Container, Eyebrow, NightBackdrop } from "@/components/ui";
+import { AccentBar, Container, Eyebrow, InstitutionName, NightBackdrop } from "@/components/ui";
 import { site } from "@/config/site";
 
 const canais = [
@@ -54,7 +54,7 @@ export function Contato() {
           <li className="sm:col-span-2">
             <p className="rounded-2xl p-6 text-sm text-paper/50 ring-1 ring-white/10">
               {site.contact.address} · Matrícula, calendário e documentação: consulte os canais
-              oficiais da instituição.
+              oficiais da <InstitutionName className="font-semibold text-paper/80" />.
             </p>
           </li>
         </ul>

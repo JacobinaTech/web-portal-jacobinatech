@@ -25,7 +25,7 @@ jobs:
       - run: npm run lint
       - run: npm run build
         env:
-          NEXT_PUBLIC_SITE_URL: https://jacobinatech.web.app # trocar quando houver domínio próprio
+          NEXT_PUBLIC_SITE_URL: https://jacobina.tech
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}

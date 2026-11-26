@@ -9,9 +9,14 @@ export const site = {
   name: "Jacobina.Tech",
   tagline: "Tecnologia que transforma.",
   description:
-    "Identidade digital do curso de Análise e Desenvolvimento de Sistemas em Jacobina: projetos, talentos e formação tecnológica na região.",
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://jacobinatech.web.app", // trocar quando houver domínio próprio
+    "Comunidade e portfólio dos estudantes de Análise e Desenvolvimento de Sistemas da AGES Jacobina: projetos, encontros e oportunidades em tecnologia na região.",
+  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://jacobina.tech",
   course: "Análise e Desenvolvimento de Sistemas",
+  /** Instituição do curso. Só o nome em texto: logo/identidade visual da AGES dependem de alinhamento com a comunicação. */
+  institution: {
+    name: "AGES Jacobina", // TODO: confirmar a forma oficial do nome com a coordenação
+    url: "", // TODO: página oficial do curso/campus (deixe vazio para não exibir link)
+  },
   city: "Jacobina – BA",
   contact: {
     email: "contato@jacobina.tech", // TODO: confirmar e-mail oficial
@@ -23,7 +28,7 @@ export const site = {
     github: "https://github.com/", // TODO: organização do curso no GitHub
     youtube: "https://youtube.com/", // TODO
   },
-  repo: "https://github.com/wellmsan/jacobinatech", // usado em "Contribuir" e "Sugerir correção"
+  repo: "https://github.com/JacobinaTech/web-portal-jacobinatech", // usado em "Contribuir" e "Sugerir correção"
 } as const;
 
 /**
