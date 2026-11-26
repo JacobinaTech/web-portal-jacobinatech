@@ -1,6 +1,6 @@
 name: Abrir PR automaticamente
 
-# No primeiro push de qualquer branch (exceto main), abre um PR para a main e publica o preview.
+# No primeiro push de uma branch feat/…, fix/… ou ci/…, abre um PR para a main e publica o preview.
 # Nos pushes seguintes o PR já existe: CI e preview seguem pelos workflows normais.
 #
 # Requer: Settings → Actions → General → Workflow permissions →
@@ -8,7 +8,8 @@ name: Abrir PR automaticamente
 #         (na organização, a mesma opção precisa estar liberada em Organization settings → Actions).
 on:
   push:
-    branches-ignore: [main]
+    # Só branches no padrão; outros nomes não abrem PR (e o check branch-name do ci.yml bloqueia o merge).
+    branches: ["feat/**", "fix/**", "ci/**"]
 
 permissions:
   contents: read
