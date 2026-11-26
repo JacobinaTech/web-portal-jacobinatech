@@ -5,6 +5,7 @@ import { Tag } from "./ui";
 
 const statusLabel: Record<Projeto["status"], string> = {
   "em-andamento": "Em andamento",
+  pausado: "Pausado",
   concluido: "Concluído",
   "em-producao": "Em produção",
 };

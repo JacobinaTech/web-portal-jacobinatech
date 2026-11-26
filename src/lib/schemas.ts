@@ -24,7 +24,7 @@ export const projetoSchema = z.object({
   repositorio: url.optional(),
   demo: url.optional(),
   destaque: z.boolean().default(false),
-  status: z.enum(["em-andamento", "concluido", "em-producao"]).default("concluido"),
+  status: z.enum(["em-andamento", "pausado", "concluido", "em-producao"]).default("concluido"),
 });
 
 export const professorSchema = z.object({

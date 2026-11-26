@@ -8,7 +8,7 @@ orientadores: [Prof. Me. Welber Macedo]
 periodo: "2025.2"
 repositorio: https://github.com/JacobinaTech/api-in-alerta
 destaque: true
-status: em-andamento
+status: pausado
 ---
 
 ## A solução

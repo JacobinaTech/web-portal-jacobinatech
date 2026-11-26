@@ -13,7 +13,7 @@ imagens: []                   # opcional — lista de imagens adicionais
 repositorio: https://github.com/org/repo  # opcional, só se for público
 demo: https://...             # opcional
 destaque: false               # definido pelos professores
-status: concluido             # em-andamento | concluido | em-producao
+status: concluido             # em-andamento | pausado | concluido | em-producao
 ---
 
 ## A solução
