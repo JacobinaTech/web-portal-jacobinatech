@@ -55,14 +55,25 @@ Projeto Firebase: `jacobinatech` · site: https://jacobinatech.web.app
 | `auto-pr.yml` | 1º push de branch `feat/…`, `fix/…`, `ci/…` ou `doc/…` | **abre o PR** para a `main` e publica/comenta o primeiro preview |
 | `ci.yml` | push em `feat/…`, `fix/…`, `ci/…`, `doc/…` e todo PR | checks `branch-name` (padrão do nome) e `build` (lint + build + validação do conteúdo), exigidos pelo ruleset |
 | `firebase-hosting-pull-request.yml` | pushes seguintes em PRs do próprio repo | atualiza o **canal de preview** e comenta a URL (expira em 7 dias) |
-| `firebase-hosting-merge.yml` | push na `main`, diário às 03:00 e manual | deploy em produção (`live`) |
+| `firebase-hosting-merge.yml` | push na `main`, diário às 03:00 e manual | deploy em produção (`live`), environment `production` |
+| `pr-guard.yml` | todo PR (versão da `main`) | alerta quando o PR altera workflows ou config de deploy |
 
 > PRs abertos pelo Actions (via `GITHUB_TOKEN`) não disparam outros workflows — por isso o CI roda no
 > push e o primeiro preview é feito pelo próprio `auto-pr.yml`. Requer em *Settings → Actions → General*:
 > **"Allow GitHub Actions to create and approve pull requests"** (também liberado no nível da organização).
 
-Requer o secret `FIREBASE_SERVICE_ACCOUNT_JACOBINATECH` no repositório, criado por
+Requer o secret `FIREBASE_SERVICE_ACCOUNT_JACOBINATECH` nos environments `preview` e `production`, criado por
 `firebase init hosting:github` (responda **não** quando ele oferecer criar os workflows — eles já existem).
+
+### Segurança (alunos com permissão de escrita)
+
+| Controle | Onde | Efeito |
+| --- | --- | --- |
+| Secret do Firebase **só em Environments** | repo → *Settings → Environments* | `production` restrito à `main`; `preview` exige aprovação do time `professores`. Nada em *Repository secrets*. |
+| Build e deploy de preview em **jobs separados** | workflows | o código da branch roda sem secret; o deploy só publica o artefato, com `firebase.json` da `main` |
+| `CODEOWNERS` + *Require review from Code Owners* | `.github/CODEOWNERS` + ruleset | só o time `professores` libera merge (aprovação do bot do Actions não conta) |
+| `pr-guard.yml` (`pull_request_target`) | workflow | avisa no PR quando ele altera `.github/`, `firebase.json` ou `.firebaserc` — revise antes de aprovar o preview |
+| Checks `branch-name` e `build` obrigatórios | ruleset | branch fora do padrão `feat/ fix/ ci/ doc/` ou build quebrado não mescla |
 
 Deploy manual, se necessário: `npm run build && firebase deploy --only hosting`.
 

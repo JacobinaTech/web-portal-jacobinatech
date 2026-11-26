@@ -1,0 +1,4 @@
+# Toda mudança precisa de revisão do time de professores.
+# Com "Require review from Code Owners" no ruleset, a aprovação do bot do GitHub Actions não libera merge.
+# Este arquivo vale sempre a partir da main: alterá-lo numa branch não muda quem precisa aprovar.
+* @JacobinaTech/professores

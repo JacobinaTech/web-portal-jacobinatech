@@ -4,6 +4,13 @@ Este site é um **projeto acadêmico permanente**: é desenvolvido e mantido pel
 
 ## Fluxo
 
+Há dois caminhos:
+
+- **Alunos das turmas** (membros da organização, com permissão de escrita): crie a branch **no próprio repositório**. O PR abre sozinho e ganha preview (liberado por um professor).
+- **Comunidade** (ex-alunos, visitantes): faça um **fork** e abra o PR pelo GitHub. O CI valida normalmente; não há preview para forks.
+
+Em ambos, o merge na `main` exige os checks `branch-name` e `build` verdes e a aprovação do time `professores`.
+
 1. Faça um fork (ou crie uma branch, se tiver acesso) com um nome no padrão:
    - `feat/<descricao>` — novidade (projeto, evento, funcionalidade). Ex.: `git checkout -b feat/projeto-agenda-saude`
    - `fix/<descricao>` — correção. Ex.: `fix/link-quebrado-contato`

@@ -1,18 +1,22 @@
 name: Preview (Firebase Hosting)
 
-# Cada PR ganha uma URL de preview (expira em 7 dias), comentada no próprio PR,
-# para revisar o resultado visual antes do merge.
+# Cada PR ganha uma URL de preview (expira em 7 dias), comentada no próprio PR.
+#
+# Segurança (alunos têm permissão de escrita):
+# - build: roda o código da branch SEM acesso a secrets e gera o site como artefato.
+# - deploy: usa o environment "preview" (aprovação obrigatória do time professores), pega o firebase.json
+#   da MAIN (ele aceita hooks de predeploy) e só publica o artefato — nenhum código da branch roda aqui.
+# O primeiro preview de PRs abertos pelo auto-pr.yml é feito por ele; este cobre os pushes seguintes
+# e PRs abertos manualmente.
 on:
   pull_request:
 
 permissions:
-  checks: write
   contents: read
-  pull-requests: write
 
 jobs:
-  preview:
-    # PRs de forks não têm acesso ao secret: pulamos o preview (o CI ainda valida o build).
+  build:
+    # PRs de forks não recebem secrets: sem preview (o CI ainda valida o build).
     if: ${{ github.event.pull_request.head.repo.full_name == github.repository }}
     runs-on: ubuntu-latest
     steps:
@@ -24,7 +28,33 @@ jobs:
       - run: npm ci
       - run: npm run build
         env:
-          NEXT_PUBLIC_SITE_URL: https://jacobinatech.web.app
+          NEXT_PUBLIC_SITE_URL: https://jacobina.tech
+      - uses: actions/upload-artifact@v4
+        with:
+          name: site
+          path: out
+          retention-days: 1
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment: preview
+    permissions:
+      checks: write
+      contents: read
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.repository.default_branch }} # firebase.json/.firebaserc confiáveis
+          sparse-checkout: |
+            firebase.json
+            .firebaserc
+          sparse-checkout-cone-mode: false
+      - uses: actions/download-artifact@v4
+        with:
+          name: site
+          path: out
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
