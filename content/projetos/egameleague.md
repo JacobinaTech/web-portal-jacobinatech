@@ -4,7 +4,7 @@ resumo: Sistema desktop para organizar campeonatos de eSports — times, torneio
 problema: Campeonatos de eSports amadores e universitários costumam ser organizados em planilhas e grupos de mensagem, o que torna inscrições, chaveamento, resultados e rankings trabalhosos e sujeitos a erros.
 tecnologias: [Java, JavaFX, PostgreSQL, JDBC]
 integrantes: [Carla Matos, Carlos Brunno, Lucca Nascimento, "@DalmyAlves", "@predo505", "@BrunoSantos-S", "@matheushenrique657"]
-orientadores: [Prof. Me. Welber Macedo]
+orientadores: [Prof. MSc. Welber]
 periodo: "2025.1"
 disciplina: Programação de Sistemas Computacionais · Sistemas Computacionais e Segurança
 capa: /projetos/egameleague/capa.webp
