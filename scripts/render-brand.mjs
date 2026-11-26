@@ -5,11 +5,12 @@
  * Saídas:
  *   src/app/opengraph-image.png + twitter-image.png  (1200×630 — usadas pelo Next no <head>)
  *   brand/out/avatar.png                              (1080×1080 — Instagram/LinkedIn)
+ *   public/projetos/<slug>/capa.webp                  (1280×720 — capa de cada brand/projetos/<slug>.html)
  * Chrome: defina CHROME_PATH se não estiver no caminho padrão do macOS/Linux.
  */
 import { execFile } from "node:child_process";
 import { promisify } from "node:util";
-import { copyFileSync, existsSync, mkdirSync } from "node:fs";
+import { copyFileSync, existsSync, mkdirSync, readdirSync } from "node:fs";
 import { createServer } from "node:http";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
@@ -62,6 +63,13 @@ try {
   copyFileSync(og, path.join(root, "src/app/twitter-image.png"));
   console.log("✓ src/app/twitter-image.png (cópia)");
   await shot("avatar.html", 1080, 1080, path.join(brandDir, "out/avatar.png"));
+
+  // Capas dos projetos: brand/projetos/<slug>.html → public/projetos/<slug>/capa.webp
+  // (use no frontmatter: capa: /projetos/<slug>/capa.webp)
+  for (const file of readdirSync(path.join(brandDir, "projetos")).filter((f) => f.endsWith(".html"))) {
+    const slug = file.replace(/\.html$/, "");
+    await shot(`projetos/${file}`, 1280, 720, path.join(root, "public/projetos", slug, "capa.webp"));
+  }
 } finally {
   server.close();
 }

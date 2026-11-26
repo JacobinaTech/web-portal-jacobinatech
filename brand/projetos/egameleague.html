@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Capa — eGameLeague (1280×720)</title>
+<style id="base"></style>
+<style>
+  .card{position:relative;width:1280px;height:720px;overflow:hidden;color:#f7f5ef;font-family:"DM Sans"}
+  .neon{position:absolute;inset:0;background:
+    radial-gradient(ellipse 40% 50% at 80% 50%, rgb(217 70 239/.28), transparent),
+    radial-gradient(ellipse 40% 45% at 20% 75%, rgb(56 189 248/.18), transparent)}
+  .name{position:absolute;left:64px;top:56px;font:700 34px "Space Grotesk";letter-spacing:-.03em}
+  .name small{display:block;font:500 17px "DM Sans";letter-spacing:0;color:rgb(247 245 239/.6);margin-top:6px}
+  .m{position:absolute;width:210px;border-radius:16px;background:rgb(255 255 255/.06);backdrop-filter:blur(10px);
+     box-shadow:0 0 40px -14px rgb(167 139 250/.7), inset 0 0 0 1.5px rgb(255 255 255/.14);overflow:hidden}
+  .t{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;font:600 15px "DM Sans"}
+  .t + .t{border-top:1px solid rgb(255 255 255/.08)}
+  .t b{font:700 16px "JetBrains Mono"}
+  .w{color:#fff} .w b{color:#f5b301} .l{color:rgb(247 245 239/.45)}
+  .phase{position:absolute;top:150px;font:500 13px "JetBrains Mono";letter-spacing:.12em;text-transform:uppercase;color:rgb(196 181 253/.7)}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="glow"></div><div class="neon"></div>
+  <svg id="lines" width="1280" height="720" style="position:absolute;inset:0"></svg>
+  <div class="name">eGameLeague<small>Gestão de campeonatos de eSports</small></div>
+
+  <div class="phase" style="left:120px">Quartas</div>
+  <div class="phase" style="left:420px">Semifinal</div>
+  <div class="phase" style="left:720px">Final</div>
+
+  <div id="bracket"></div>
+
+  <!-- Troféu -->
+  <svg style="position:absolute;left:1000px;top:270px;filter:drop-shadow(0 0 40px rgb(245 179 1/.55))" width="200" height="200" viewBox="0 0 64 64">
+    <defs><linearGradient id="gold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffe08a"/><stop offset="1" stop-color="#d99600"/></linearGradient></defs>
+    <path d="M18 8h28v12a14 14 0 0 1-28 0z" fill="url(#gold)"/>
+    <path d="M18 12H9a9 9 0 0 0 10 11M46 12h9a9 9 0 0 1-10 11" fill="none" stroke="url(#gold)" stroke-width="3.5" stroke-linecap="round"/>
+    <rect x="29" y="33" width="6" height="11" fill="url(#gold)"/><rect x="20" y="44" width="24" height="7" rx="2" fill="url(#gold)"/>
+    <rect x="16" y="51" width="32" height="5" rx="2" fill="#a16207"/>
+  </svg>
+</div>
+<script type="module">
+  import { baseCss } from "../shared.js";
+  document.getElementById("base").textContent = baseCss;
+
+  // [x, y, [timeA, placarA, timeB, placarB]] — vencedor em destaque
+  const W = 210, H = 82;
+  const matches = [
+    [80, 190, ["Squad Alpha", 3, "Nova Era", 1]], [80, 300, ["Serra FC", 2, "Pixel Team", 0]],
+    [80, 410, ["Ouro Gaming", 1, "Lobos", 3]],    [80, 520, ["Byte Force", 2, "Fênix", 1]],
+    [380, 245, ["Squad Alpha", 2, "Serra FC", 1]], [380, 465, ["Lobos", 0, "Byte Force", 2]],
+    [680, 355, ["Squad Alpha", 3, "Byte Force", 2]],
+  ];
+  const row = (n, s, win) => `<div class="t ${win ? "w" : "l"}"><span>${n}</span><b>${s}</b></div>`;
+  document.getElementById("bracket").innerHTML = matches.map(([x, y, [a, sa, b, sb]]) =>
+    `<div class="m" style="left:${x}px;top:${y}px">${row(a, sa, sa > sb)}${row(b, sb, sb > sa)}</div>`).join("");
+
+  // Conexões entre fases
+  const mid = ([x, y]) => [x + W, y + H / 2], inn = ([x, y]) => [x, y + H / 2];
+  const link = (from, to) => { const [x1, y1] = mid(from), [x2, y2] = inn(to), xm = (x1 + x2) / 2;
+    return `<path d="M${x1} ${y1} H${xm} V${y2} H${x2}" fill="none" stroke="url(#ln)" stroke-width="2.5"/>`; };
+  const [q1, q2, q3, q4, s1, s2, f] = matches;
+  const [fx, fy] = mid(f);
+  document.getElementById("lines").innerHTML = `
+    <defs><linearGradient id="ln" x1="0" x2="1"><stop offset="0" stop-color="#38bdf8" stop-opacity=".5"/><stop offset="1" stop-color="#a78bfa"/></linearGradient></defs>
+    ${link(q1, s1)}${link(q2, s1)}${link(q3, s2)}${link(q4, s2)}${link(s1, f)}${link(s2, f)}
+    <path d="M${fx} ${fy} H1000" stroke="#f5b301" stroke-width="2.5" stroke-dasharray="5 7"/>`;
+</script>
+</body>
+</html>

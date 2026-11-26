@@ -33,6 +33,7 @@ npm run brand   # gera src/app/opengraph-image.png, twitter-image.png e brand/ou
 | --- | --- |
 | `src/app/opengraph-image.png` (1200×630) | Prévia de links (WhatsApp, LinkedIn, X) — o Next adiciona as meta tags |
 | `brand/out/avatar.png` (1080×1080) | Foto de perfil do Instagram/LinkedIn (seguro para recorte circular) |
+| `public/projetos/<slug>/capa.webp` (1280×720) | Capa ilustrada de cada projeto, gerada de `brand/projetos/<slug>.html` |
 
 ## Formato: landing + páginas de portfólio (híbrido)
 

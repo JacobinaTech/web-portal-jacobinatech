@@ -6,6 +6,7 @@ tecnologias: [React Native, Expo, TypeScript, Firebase Auth, Firestore]
 integrantes: [Luan Menezes, Isaac Almeida]
 orientadores: [Prof. Me. Welber Macedo]
 periodo: "2025.2"
+capa: /projetos/alimentamais/capa.webp
 repositorio: https://github.com/JacobinaTech/mobile-alimenta-mais
 destaque: true
 status: em-andamento

@@ -7,6 +7,7 @@ integrantes: [Carla Matos, Carlos Brunno, Lucca Nascimento, "@DalmyAlves", "@pre
 orientadores: [Prof. Me. Welber Macedo]
 periodo: "2025.1"
 disciplina: Programação de Sistemas Computacionais · Sistemas Computacionais e Segurança
+capa: /projetos/egameleague/capa.webp
 repositorio: https://github.com/JacobinaTech/web-egame-league
 destaque: true
 status: concluido

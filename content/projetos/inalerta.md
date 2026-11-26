@@ -6,6 +6,7 @@ tecnologias: [Java 21, Spring Boot, Firebase Firestore, Gemini (IA), API do INPE
 integrantes: [Lucca Nascimento, Juliana Bastos Ghisi Santana, Ian Gabriel Guimarães de Almeida]
 orientadores: [Prof. Me. Welber Macedo]
 periodo: "2025.2"
+capa: /projetos/inalerta/capa.webp
 repositorio: https://github.com/JacobinaTech/api-in-alerta
 destaque: true
 status: pausado

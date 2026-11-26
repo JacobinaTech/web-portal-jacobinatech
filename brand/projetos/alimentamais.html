@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Capa — AlimentaMais (1280×720)</title>
+<style id="base"></style>
+<style>
+  .card{position:relative;width:1280px;height:720px;overflow:hidden;color:#f7f5ef;font-family:"DM Sans"}
+  .green{position:absolute;inset:0;background:
+    radial-gradient(ellipse 40% 55% at 72% 55%, rgb(16 185 129/.28), transparent),
+    radial-gradient(ellipse 35% 40% at 18% 80%, rgb(245 179 1/.14), transparent)}
+  .name{position:absolute;left:64px;top:56px;font:700 34px "Space Grotesk";letter-spacing:-.03em}
+  .name small{display:block;font:500 17px "DM Sans";letter-spacing:0;color:rgb(247 245 239/.6);margin-top:6px}
+  .glass{position:absolute;border-radius:22px;background:rgb(255 255 255/.06);backdrop-filter:blur(10px);
+    box-shadow:0 0 50px -14px rgb(52 211 153/.55), inset 0 0 0 1.5px rgb(255 255 255/.14)}
+  .phone{position:absolute;left:760px;top:70px;width:300px;height:600px;border-radius:44px;background:#0b1020;
+    box-shadow:0 0 90px -10px rgb(16 185 129/.45), inset 0 0 0 10px #1f2937, inset 0 0 0 12px rgb(255 255 255/.12)}
+  .screen{position:absolute;inset:22px;border-radius:30px;overflow:hidden;background:linear-gradient(180deg,#0f2a24,#0b1020 45%)}
+  .notch{position:absolute;left:50%;top:10px;width:90px;height:22px;margin-left:-45px;border-radius:12px;background:#000}
+  .tile{border-radius:16px;background:rgb(255 255 255/.07);padding:12px}
+  .item{display:flex;align-items:center;gap:12px;border-radius:14px;background:rgb(255 255 255/.06);padding:10px 12px;margin-top:10px;font:600 14px "DM Sans"}
+  .emoji{font-size:24px;width:40px;height:40px;display:grid;place-items:center;border-radius:12px;background:rgb(255 255 255/.08)}
+  .muted{color:rgb(247 245 239/.55);font-weight:500;font-size:12px}
+  .bar{height:8px;border-radius:8px;background:rgb(255 255 255/.16);margin-top:9px}
+  .btn{display:inline-block;border-radius:999px;padding:9px 16px;font:700 14px "DM Sans";background:#10b981;color:#052e22}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="glow"></div><div class="green"></div>
+  <svg id="lines" width="1280" height="720" style="position:absolute;inset:0"></svg>
+  <div class="name">AlimentaMais<small>Doadores de alimentos conectados a ONGs</small></div>
+
+  <!-- Nova doação -->
+  <div class="glass" style="left:64px;top:190px;width:330px;padding:22px 24px">
+    <div style="font:700 20px 'Space Grotesk'">Nova doação</div>
+    <div class="muted" style="margin-top:12px">Alimento</div>
+    <div style="font:600 16px 'DM Sans';margin-top:2px">Arroz, feijão e macarrão</div>
+    <div class="muted" style="margin-top:12px">Validade e conservação</div>
+    <div class="bar" style="width:90%"></div><div class="bar" style="width:62%"></div>
+    <div style="display:flex;gap:10px;margin-top:16px">
+      <div class="emoji">🍚</div><div class="emoji">🫘</div><div class="emoji">🍝</div>
+      <div class="emoji" style="font-size:18px;color:rgb(247 245 239/.6)">＋</div>
+    </div>
+    <div style="margin-top:18px"><span class="btn">Doar agora</span></div>
+  </div>
+
+  <!-- ONG -->
+  <div class="glass" style="left:420px;top:470px;width:270px;padding:18px 20px;display:flex;gap:14px;align-items:center">
+    <div class="emoji" style="background:rgb(16 185 129/.18)">🤝</div>
+    <div><div style="font:700 17px 'Space Grotesk'">ONG parceira</div><div class="muted" style="font-size:13px">recebe a doação</div></div>
+  </div>
+
+  <!-- Celular -->
+  <div class="phone"><div class="screen">
+    <div class="notch"></div>
+    <div style="padding:46px 18px 0">
+      <div style="font:700 20px 'Space Grotesk'">Alimenta<span style="color:#34d399">Mais</span></div>
+      <div class="muted" style="margin-top:2px">Nosso impacto</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px">
+        <div class="tile"><div style="font-size:20px">📦</div><div class="muted" style="margin-top:6px">Doações</div><div class="bar" style="width:80%;background:rgb(52 211 153/.6)"></div></div>
+        <div class="tile"><div style="font-size:20px">🏠</div><div class="muted" style="margin-top:6px">Famílias</div><div class="bar" style="width:60%;background:rgb(245 179 1/.7)"></div></div>
+      </div>
+      <div class="muted" style="margin-top:18px">Minhas doações</div>
+      <div class="item"><div class="emoji">🍚</div><div>Arroz · 5 kg<div class="muted">entregue</div></div></div>
+      <div class="item"><div class="emoji">🍎</div><div>Frutas<div class="muted">aguardando coleta</div></div></div>
+      <div class="item"><div class="emoji">🥖</div><div>Pães<div class="muted">entregue</div></div></div>
+    </div>
+  </div></div>
+</div>
+<script type="module">
+  import { baseCss } from "../shared.js";
+  document.getElementById("base").textContent = baseCss;
+  document.getElementById("lines").innerHTML = `
+    <defs><linearGradient id="ln" x1="0" x2="1"><stop offset="0" stop-color="#34d399"/><stop offset="1" stop-color="#f5b301"/></linearGradient></defs>
+    <path d="M394 330 C 470 330, 470 500, 420 510" fill="none" stroke="url(#ln)" stroke-width="2.5" stroke-dasharray="6 8"/>
+    <path d="M690 515 C 730 515, 740 420, 760 400" fill="none" stroke="url(#ln)" stroke-width="2.5" stroke-dasharray="6 8"/>
+    <text x="455" y="425" fill="#fbbf24" font-size="30">♥</text>`;
+</script>
+</body>
+</html>

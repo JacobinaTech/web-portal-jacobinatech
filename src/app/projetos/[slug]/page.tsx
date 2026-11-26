@@ -76,7 +76,7 @@ export default async function ProjetoPage(props: PageProps<"/projetos/[slug]">) 
       {p.capa && (
         <Container className="-mt-2 pt-12">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={p.capa} alt={`Tela do projeto ${p.titulo}`} className="w-full rounded-3xl border border-line" />
+          <img src={p.capa} alt={`Capa do projeto ${p.titulo}`} className="w-full rounded-3xl border border-line" />
         </Container>
       )}
 

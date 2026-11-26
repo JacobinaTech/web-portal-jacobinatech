@@ -8,7 +8,7 @@ integrantes: [Nome Completo 1, Nome Completo 2]
 orientadores: [Prof. Nome]
 periodo: "2026.1"            # formato AAAA.S
 disciplina: Nome da disciplina  # opcional
-capa: /projetos/nome-do-projeto/capa.png  # opcional — imagem em public/projetos/
+capa: /projetos/nome-do-projeto/capa.webp # opcional — print real em public/projetos/<slug>/ ou ilustração gerada de brand/projetos/<slug>.html (npm run brand)
 imagens: []                   # opcional — lista de imagens adicionais
 repositorio: https://github.com/org/repo  # opcional, só se for público
 demo: https://...             # opcional
