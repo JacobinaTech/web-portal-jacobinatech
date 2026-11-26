@@ -1,0 +1,40 @@
+name: Alerta de alterações sensíveis
+
+# Comenta no PR quando ele altera workflows ou a configuração de deploy, para quem for aprovar o preview.
+#
+# pull_request_target executa SEMPRE a versão deste arquivo que está na main (a branch não consegue
+# alterá-lo) e aqui NÃO fazemos checkout do código do PR — só lemos a lista de arquivos pela API.
+# Obs.: PRs abertos pelo auto-pr.yml não disparam este evento na abertura (limitação do GITHUB_TOKEN);
+# para eles o aviso vai no corpo do PR, e este workflow cobre os pushes seguintes.
+on:
+  pull_request_target:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  pull-requests: write
+
+jobs:
+  guard:
+    runs-on: ubuntu-latest
+    steps:
+      - env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR: ${{ github.event.pull_request.number }}
+        run: |
+          files=$(gh api "repos/$GITHUB_REPOSITORY/pulls/$PR/files" --paginate --jq '.[].filename' \
+            | grep -E '^(\.github/|firebase\.json$|\.firebaserc$)' || true)
+          [ -z "$files" ] && { echo "Nenhuma alteração sensível."; exit 0; }
+
+          marker="<!-- pr-guard -->"
+          if gh api "repos/$GITHUB_REPOSITORY/issues/$PR/comments" --paginate --jq '.[].body' | grep -q "$marker"; then
+            echo "Alerta já publicado."; exit 0
+          fi
+
+          {
+            echo "$marker"
+            echo "> [!WARNING]"
+            echo "> **Este PR altera workflows ou a configuração de deploy.**"
+            echo "> O preview roda a versão dos workflows desta branch. Revise estes arquivos **antes de aprovar o environment \`preview\`**:"
+            echo "$files" | sed 's/^/> - `/; s/$/`/'
+          } > comment.md
+          gh pr comment "$PR" --repo "$GITHUB_REPOSITORY" --body-file comment.md

@@ -4,10 +4,23 @@ Este site é um **projeto acadêmico permanente**: é desenvolvido e mantido pel
 
 ## Fluxo
 
-1. Faça um fork (ou crie uma branch, se tiver acesso): `git checkout -b conteudo/meu-projeto`
+Há dois caminhos:
+
+- **Alunos das turmas** (membros da organização, com permissão de escrita): crie a branch **no próprio repositório**. O PR abre sozinho e ganha preview (liberado por um professor).
+- **Comunidade** (ex-alunos, visitantes): faça um **fork** e abra o PR pelo GitHub. O CI valida normalmente; não há preview para forks.
+
+Em ambos, o merge na `main` exige os checks `branch-name` e `build` verdes e a aprovação do time `professores`.
+
+1. Faça um fork (ou crie uma branch, se tiver acesso) com um nome no padrão:
+   - `feat/<descricao>` — novidade (projeto, evento, funcionalidade). Ex.: `git checkout -b feat/projeto-agenda-saude`
+   - `fix/<descricao>` — correção. Ex.: `fix/link-quebrado-contato`
+   - `ci/<descricao>` — automação/workflows. Ex.: `ci/cache-build`
+   - `doc/<descricao>` — documentação (README, CONTRIBUTING, guias). Ex.: `doc/guia-primeiro-pr`
+
+   Use minúsculas, números e hífens. **Branches fora desse padrão não abrem PR automático e não podem ser mescladas** (o check `branch-name` falha).
 2. Rode localmente: `npm install && npm run dev` → http://localhost:3000
 3. Faça a alteração e confira que `npm run build` passa
-4. Abra o PR preenchendo o template. O CI valida e um(a) professor(a) revisa.
+4. Faça o push. Em branches do próprio repositório o PR é aberto automaticamente; em forks, abra o PR pelo GitHub. O CI valida e um(a) professor(a) revisa.
 
 ## Publicar um projeto (o caso mais comum)
 

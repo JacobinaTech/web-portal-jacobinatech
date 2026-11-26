@@ -1,0 +1,137 @@
+name: Abrir PR automaticamente
+
+# No primeiro push de uma branch feat/…, fix/…, ci/… ou doc/…, abre um PR para a main e publica o preview.
+# Nos pushes seguintes o PR já existe: CI e preview seguem pelos workflows normais.
+#
+# Requer: Settings → Actions → General → Workflow permissions →
+#         ✅ "Allow GitHub Actions to create and approve pull requests"
+#         (na organização, a mesma opção precisa estar liberada em Organization settings → Actions).
+# A aprovação pelo bot NÃO libera merge: o ruleset exige review de Code Owners (time professores).
+on:
+  push:
+    # Só branches no padrão; outros nomes não abrem PR (e o check branch-name do ci.yml bloqueia o merge).
+    branches: ["feat/**", "fix/**", "ci/**", "doc/**"]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: auto-pr-${{ github.ref_name }}
+  cancel-in-progress: false
+
+jobs:
+  open-pr:
+    # Push que apenas apaga a branch não abre PR.
+    if: ${{ !github.event.deleted }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    outputs:
+      number: ${{ steps.pr.outputs.number }}
+      created: ${{ steps.pr.outputs.created }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - id: pr
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: ${{ github.ref_name }}
+        run: |
+          existing=$(gh pr list --head "$BRANCH" --state open --json number --jq '.[0].number')
+          if [ -n "$existing" ]; then
+            echo "PR #$existing já existe para $BRANCH."
+            echo "number=$existing" >> "$GITHUB_OUTPUT"
+            echo "created=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          # Título = primeiro commit da branch; corpo = lista de commits + checklist.
+          title=$(git log --reverse --format=%s origin/main..HEAD | head -1)
+          {
+            echo "PR aberto automaticamente a partir do push em \`$BRANCH\`."
+            echo
+            echo "## Commits"
+            git log --reverse --format='- %s' origin/main..HEAD
+            echo
+            echo "## Checklist"
+            echo "- [ ] Revisei o preview comentado abaixo"
+            echo "- [ ] Tenho autorização para publicar nomes/imagens citados"
+          } > body.md
+
+          # Aviso para quem aprova o preview: workflows/configs de deploy alterados nesta branch.
+          # (Este arquivo roda na versão da branch; o pr-guard.yml, que roda da main, cobre os pushes seguintes.)
+          sensitive=$(git diff --name-only origin/main...HEAD | grep -E '^(\.github/|firebase\.json$|\.firebaserc$)' || true)
+          if [ -n "$sensitive" ]; then
+            {
+              echo
+              echo "> [!WARNING]"
+              echo "> Este PR altera workflows ou configuração de deploy. **Revise antes de aprovar o preview:**"
+              echo "$sensitive" | sed 's/^/> - `/; s/$/`/'
+            } >> body.md
+          fi
+
+          url=$(gh pr create --base main --head "$BRANCH" --title "${title:-$BRANCH}" --body-file body.md)
+          number=${url##*/}
+          echo "Criado PR #$number: $url"
+          echo "number=$number" >> "$GITHUB_OUTPUT"
+          echo "created=true" >> "$GITHUB_OUTPUT"
+
+  # O evento "PR aberto" acima não dispara o workflow de preview (limitação do GITHUB_TOKEN),
+  # então o primeiro preview é feito aqui — com a mesma separação build (sem secret) / deploy (com aprovação).
+  first-preview-build:
+    needs: open-pr
+    if: ${{ needs.open-pr.outputs.created == 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+        env:
+          NEXT_PUBLIC_SITE_URL: https://jacobina.tech
+      - uses: actions/upload-artifact@v4
+        with:
+          name: site
+          path: out
+          retention-days: 1
+
+  first-preview-deploy:
+    needs: [open-pr, first-preview-build]
+    runs-on: ubuntu-latest
+    environment: preview
+    permissions:
+      checks: write
+      contents: read
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.repository.default_branch }} # firebase.json/.firebaserc confiáveis
+          sparse-checkout: |
+            firebase.json
+            .firebaserc
+          sparse-checkout-cone-mode: false
+      - uses: actions/download-artifact@v4
+        with:
+          name: site
+          path: out
+      - id: deploy
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: ${{ secrets.GITHUB_TOKEN }}
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_JACOBINATECH }}
+          projectId: jacobinatech
+          channelId: pr${{ needs.open-pr.outputs.number }}
+          expires: 7d
+      - env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          URL: ${{ steps.deploy.outputs.details_url }}
+          EXPIRES: ${{ steps.deploy.outputs.expire_time }}
+        run: |
+          gh pr comment ${{ needs.open-pr.outputs.number }} --repo "$GITHUB_REPOSITORY" \
+            --body "🔍 **Preview:** $URL"$'\n\n'"Expira em: $EXPIRES"

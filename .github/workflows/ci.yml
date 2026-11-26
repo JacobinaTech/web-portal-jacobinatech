@@ -1,12 +1,36 @@
 name: CI
 
-# Valida todo PR: lint + build (o build valida o frontmatter de /content).
-# O deploy fica nos workflows firebase-hosting-*.yml.
+# Checks exigidos pelo ruleset da main:
+#   - branch-name: o nome da branch do PR deve começar com feat/, fix/, ci/ ou doc/
+#   - build:       lint + build (o build valida o frontmatter de /content)
+#
+# Por que push E pull_request:
+# - PRs abertos pelo auto-pr.yml usam o GITHUB_TOKEN, e eventos criados por ele não disparam workflows.
+#   Então, nas branches do próprio repo, os checks rodam no PUSH (o ruleset aceita o check do último commit).
+# - PRs abertos manualmente (inclusive de forks) disparam pull_request: ali o branch-name sempre roda,
+#   pegando branches fora do padrão; o build roda só para forks (nas branches do repo ele já rodou no push).
 on:
+  push:
+    branches: ["feat/**", "fix/**", "ci/**", "doc/**"]
   pull_request:
 
 jobs:
+  branch-name:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validar nome da branch
+        env:
+          BRANCH: ${{ github.head_ref || github.ref_name }}
+        run: |
+          if [[ "$BRANCH" =~ ^(feat|fix|ci|doc)/[a-z0-9][a-z0-9._/-]*$ ]]; then
+            echo "✅ Branch '$BRANCH' segue o padrão."
+          else
+            echo "::error title=Nome de branch inválido::'$BRANCH' não segue o padrão. Use feat/<descricao>, fix/<descricao>, ci/<descricao> ou doc/<descricao> (minúsculas, números e hífens). Ex.: feat/projeto-agenda-saude"
+            exit 1
+          fi
+
   build:
+    if: ${{ github.event_name == 'push' || github.event.pull_request.head.repo.full_name != github.repository }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
