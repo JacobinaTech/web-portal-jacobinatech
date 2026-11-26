@@ -52,8 +52,8 @@ Projeto Firebase: `jacobinatech` · site: https://jacobinatech.web.app
 
 | Workflow | Quando | O que faz |
 | --- | --- | --- |
-| `auto-pr.yml` | 1º push de branch `feat/…`, `fix/…` ou `ci/…` | **abre o PR** para a `main` e publica/comenta o primeiro preview |
-| `ci.yml` | push em `feat/…`, `fix/…`, `ci/…` e todo PR | checks `branch-name` (padrão do nome) e `build` (lint + build + validação do conteúdo), exigidos pelo ruleset |
+| `auto-pr.yml` | 1º push de branch `feat/…`, `fix/…`, `ci/…` ou `doc/…` | **abre o PR** para a `main` e publica/comenta o primeiro preview |
+| `ci.yml` | push em `feat/…`, `fix/…`, `ci/…`, `doc/…` e todo PR | checks `branch-name` (padrão do nome) e `build` (lint + build + validação do conteúdo), exigidos pelo ruleset |
 | `firebase-hosting-pull-request.yml` | pushes seguintes em PRs do próprio repo | atualiza o **canal de preview** e comenta a URL (expira em 7 dias) |
 | `firebase-hosting-merge.yml` | push na `main`, diário às 03:00 e manual | deploy em produção (`live`) |
 

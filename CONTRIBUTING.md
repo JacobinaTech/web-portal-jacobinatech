@@ -8,6 +8,7 @@ Este site é um **projeto acadêmico permanente**: é desenvolvido e mantido pel
    - `feat/<descricao>` — novidade (projeto, evento, funcionalidade). Ex.: `git checkout -b feat/projeto-agenda-saude`
    - `fix/<descricao>` — correção. Ex.: `fix/link-quebrado-contato`
    - `ci/<descricao>` — automação/workflows. Ex.: `ci/cache-build`
+   - `doc/<descricao>` — documentação (README, CONTRIBUTING, guias). Ex.: `doc/guia-primeiro-pr`
 
    Use minúsculas, números e hífens. **Branches fora desse padrão não abrem PR automático e não podem ser mescladas** (o check `branch-name` falha).
 2. Rode localmente: `npm install && npm run dev` → http://localhost:3000
