@@ -15,28 +15,30 @@ export function Professores({ professores }: { professores: Entry<Professor>[] }
           title="Quem orienta a jornada."
           description={`Professores do curso de ADS da ${site.institution.name}, com experiência acadêmica e de mercado, acompanhando de perto cada projeto.`}
         />
-        <div className={`grid content-start gap-4 ${professores.length > 1 ? "sm:grid-cols-2" : ""}`}>
+        <div className="grid content-start gap-4 sm:grid-cols-2">
           {professores.map((p) => {
             const link = p.linkedin ?? p.lattes ?? p.github;
             return (
-              <article key={p.slug} className="flex gap-5 rounded-3xl bg-white p-6 ring-1 ring-line">
-                <Avatar src={p.foto} name={p.nome} initials={initials(p.nome)} />
-                <div className="min-w-0">
-                  <h3 className="font-display text-lg font-semibold leading-snug">
-                    {link ? (
-                      <a href={link} target="_blank" rel="noopener noreferrer" className="hover:text-indigo-600">
-                        {p.nome}
-                      </a>
-                    ) : (
-                      p.nome
-                    )}
-                  </h3>
-                  <p className="text-sm text-mute">{p.titulacao}</p>
-                  <div className="mt-3 flex flex-wrap gap-1.5">
-                    {p.areas.slice(0, 3).map((a) => (
-                      <Tag key={a}>{a}</Tag>
-                    ))}
+              <article key={p.slug} className="rounded-3xl bg-white p-6 ring-1 ring-line">
+                <div className="flex items-center gap-4">
+                  <Avatar src={p.foto} name={p.nome} initials={initials(p.nome)} />
+                  <div className="min-w-0">
+                    <h3 className="font-display text-lg font-semibold leading-snug">
+                      {link ? (
+                        <a href={link} target="_blank" rel="noopener noreferrer" className="hover:text-indigo-600">
+                          {p.nome}
+                        </a>
+                      ) : (
+                        p.nome
+                      )}
+                    </h3>
+                    <p className="text-sm text-mute">{p.titulacao}</p>
                   </div>
+                </div>
+                <div className="mt-4 flex flex-wrap gap-1.5">
+                  {p.areas.slice(0, 3).map((a) => (
+                    <Tag key={a}>{a}</Tag>
+                  ))}
                 </div>
               </article>
             );
