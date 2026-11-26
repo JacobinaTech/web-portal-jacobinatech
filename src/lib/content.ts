@@ -73,6 +73,12 @@ export const getProfessores = () =>
     ),
   ) as Entry<Professor>[];
 
+export const getProfessor = (slug: string) => getProfessores().find((p) => p.slug === slug);
+
+/** Projetos que citam o professor em `orientadores` (mesmo texto do campo `nome`). */
+export const getProjetosOrientados = (nome: string) =>
+  getProjetos().filter((p) => p.orientadores.includes(nome));
+
 export const getEventos = () =>
   memo("eventos", () => loadCollection("eventos", eventoSchema).sort(byDateDesc)) as Entry<Evento>[];
 

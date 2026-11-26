@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Avatar, Container, SectionHeader, Tag } from "@/components/ui";
 import type { Entry } from "@/lib/content";
 import type { Professor } from "@/lib/schemas";
@@ -17,19 +18,17 @@ export function Professores({ professores }: { professores: Entry<Professor>[] }
         />
         <div className={`grid content-start gap-4 ${professores.length > 1 ? "sm:grid-cols-2" : ""}`}>
           {professores.map((p) => {
-            const link = p.linkedin ?? p.lattes ?? p.github;
             return (
-              <article key={p.slug} className="flex gap-5 rounded-3xl bg-white p-6 ring-1 ring-line">
+              <article
+                key={p.slug}
+                className="group relative flex gap-5 rounded-3xl bg-white p-6 ring-1 ring-line transition-all hover:-translate-y-0.5 hover:shadow-xl hover:shadow-ink/5"
+              >
                 <Avatar src={p.foto} name={p.nome} initials={initials(p.nome)} />
                 <div className="min-w-0">
                   <h3 className="font-display text-lg font-semibold leading-snug">
-                    {link ? (
-                      <a href={link} target="_blank" rel="noopener noreferrer" className="hover:text-indigo-600">
-                        {p.nome}
-                      </a>
-                    ) : (
-                      p.nome
-                    )}
+                    <Link href={`/professores/${p.slug}/`} className="after:absolute after:inset-0 group-hover:text-indigo-600">
+                      {p.nome}
+                    </Link>
                   </h3>
                   <p className="text-sm text-mute">{p.titulacao}</p>
                   <div className="mt-3 flex flex-wrap gap-1.5">
