@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { ProjetoCard } from "@/components/cards";
+import { ProjetoCard, projetoGrid } from "@/components/cards";
 import { Container, EmptyState, PageHero, Section, Tag } from "@/components/ui";
 import { site } from "@/config/site";
 import { getProjetos, getTecnologias } from "@/lib/content";
@@ -34,7 +34,7 @@ export default function ProjetosPage() {
       <Section>
         <Container>
           {projetos.length ? (
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            <div className={projetoGrid(projetos.length)}>
               {projetos.map((p) => (
                 <ProjetoCard key={p.slug} projeto={p} />
               ))}
