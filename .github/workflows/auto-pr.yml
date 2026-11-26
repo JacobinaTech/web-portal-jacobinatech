@@ -1,6 +1,6 @@
 name: Abrir PR automaticamente
 
-# No primeiro push de uma branch feat/…, fix/…, ci/… ou doc/…, abre um PR para a main.
+# No primeiro push de uma branch feat/…, fix/…, ci/…, doc/… ou teste/…, abre um PR para a main.
 # O preview fica a cargo do firebase-hosting-pull-request.yml: o PR aberto pelo bot dispara o pull_request,
 # mas o GitHub exige "Approve and run workflows" (um clique de um maintainer) na abertura.
 # Nos pushes seguintes quem dispara é o autor do push, sem esse clique.
@@ -12,7 +12,7 @@ name: Abrir PR automaticamente
 on:
   push:
     # Só branches no padrão; outros nomes não abrem PR (e o check branch-name do ci.yml bloqueia o merge).
-    branches: ["feat/**", "fix/**", "ci/**", "doc/**"]
+    branches: ["feat/**", "fix/**", "ci/**", "doc/**", "teste/**"]
 
 permissions:
   contents: read

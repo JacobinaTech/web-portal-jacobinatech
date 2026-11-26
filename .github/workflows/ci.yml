@@ -1,7 +1,7 @@
 name: CI
 
 # Checks exigidos pelo ruleset da main:
-#   - branch-name: o nome da branch do PR deve começar com feat/, fix/, ci/ ou doc/
+#   - branch-name: o nome da branch do PR deve começar com feat/, fix/, ci/, doc/ ou teste/
 #   - build:       lint + build (o build valida o frontmatter de /content)
 #
 # Por que push E pull_request:
@@ -11,7 +11,7 @@ name: CI
 #   pegando branches fora do padrão; o build roda só para forks (nas branches do repo ele já rodou no push).
 on:
   push:
-    branches: ["feat/**", "fix/**", "ci/**", "doc/**"]
+    branches: ["feat/**", "fix/**", "ci/**", "doc/**", "teste/**"]
   pull_request:
 
 jobs:
@@ -22,10 +22,10 @@ jobs:
         env:
           BRANCH: ${{ github.head_ref || github.ref_name }}
         run: |
-          if [[ "$BRANCH" =~ ^(feat|fix|ci|doc)/[a-z0-9][a-z0-9._/-]*$ ]]; then
+          if [[ "$BRANCH" =~ ^(feat|fix|ci|doc|teste)/[a-z0-9][a-z0-9._/-]*$ ]]; then
             echo "✅ Branch '$BRANCH' segue o padrão."
           else
-            echo "::error title=Nome de branch inválido::'$BRANCH' não segue o padrão. Use feat/<descricao>, fix/<descricao>, ci/<descricao> ou doc/<descricao> (minúsculas, números e hífens). Ex.: feat/projeto-agenda-saude"
+            echo "::error title=Nome de branch inválido::'$BRANCH' não segue o padrão. Use feat/<descricao>, fix/<descricao>, ci/<descricao>, doc/<descricao> ou teste/<descricao> (minúsculas, números e hífens). Ex.: feat/projeto-agenda-saude"
             exit 1
           fi
 

@@ -65,8 +65,8 @@ Projeto Firebase: `jacobinatech` · site: https://jacobina.tech (também em http
 
 | Workflow | Quando | O que faz |
 | --- | --- | --- |
-| `auto-pr.yml` | 1º push de branch `feat/…`, `fix/…`, `ci/…` ou `doc/…` | **abre o PR** para a `main` |
-| `ci.yml` | push em `feat/…`, `fix/…`, `ci/…`, `doc/…` e todo PR | checks `branch-name` (padrão do nome) e `build` (lint + build + validação do conteúdo), exigidos pelo ruleset |
+| `auto-pr.yml` | 1º push de branch `feat/…`, `fix/…`, `ci/…`, `doc/…` ou `teste/…` | **abre o PR** para a `main` |
+| `ci.yml` | push em `feat/…`, `fix/…`, `ci/…`, `doc/…`, `teste/…` e todo PR | checks `branch-name` (padrão do nome) e `build` (lint + build + validação do conteúdo), exigidos pelo ruleset |
 | `firebase-hosting-pull-request.yml` | todo PR do próprio repo (abertura e pushes) | build sem secret → deploy no **canal de preview** (environment `preview`, com aprovação) e comenta a URL (expira em 7 dias) |
 | `firebase-hosting-merge.yml` | push na `main`, diário às 03:00 e manual | deploy em produção (`live`), environment `production` |
 | `pr-guard.yml` | todo PR (versão da `main`) | alerta quando o PR altera workflows ou config de deploy |
@@ -87,7 +87,7 @@ Requer o secret `FIREBASE_SERVICE_ACCOUNT_JACOBINATECH` nos environments `previe
 | Build e deploy de preview em **jobs separados** | workflows | o código da branch roda sem secret; o deploy só publica o artefato, com `firebase.json` da `main` |
 | `CODEOWNERS` + *Require review from Code Owners* | `.github/CODEOWNERS` + ruleset | só o time `professores` libera merge (aprovação do bot do Actions não conta) |
 | `pr-guard.yml` (`pull_request_target`) | workflow | avisa no PR quando ele altera `.github/`, `firebase.json` ou `.firebaserc` — revise antes de aprovar o preview |
-| Checks `branch-name` e `build` obrigatórios | ruleset | branch fora do padrão `feat/ fix/ ci/ doc/` ou build quebrado não mescla |
+| Checks `branch-name` e `build` obrigatórios | ruleset | branch fora do padrão `feat/ fix/ ci/ doc/ teste/` ou build quebrado não mescla |
 
 Deploy manual, se necessário: `npm run build && firebase deploy --only hosting`.
 
