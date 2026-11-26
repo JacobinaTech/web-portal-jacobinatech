@@ -23,7 +23,7 @@ export const site = {
     github: "https://github.com/", // TODO: organização do curso no GitHub
     youtube: "https://youtube.com/", // TODO
   },
-  repo: "https://github.com/wellmsan/jacobinatech", // usado em "Contribuir" e "Sugerir correção"
+  repo: "https://github.com/JacobinaTech/web-portal-jacobinatech", // usado em "Contribuir" e "Sugerir correção"
 } as const;
 
 /**
