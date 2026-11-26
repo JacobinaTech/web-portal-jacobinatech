@@ -15,7 +15,7 @@ export function Professores({ professores }: { professores: Entry<Professor>[] }
           title="Quem orienta a jornada."
           description={`Professores do curso de ADS da ${site.institution.name}, com experiência acadêmica e de mercado, acompanhando de perto cada projeto.`}
         />
-        <div className="grid content-start gap-4 sm:grid-cols-2">
+        <div className={`grid content-start gap-4 ${professores.length > 1 ? "sm:grid-cols-2" : ""}`}>
           {professores.map((p) => {
             const link = p.linkedin ?? p.lattes ?? p.github;
             return (

@@ -12,7 +12,8 @@ export const formatDay = (d: Date) => ({
 
 export const initials = (name: string) =>
   name
-    .replace(/^(Prof\.?|Profa\.?|Dr\.?|Dra\.?|Me\.?|Ma\.?)\s+/gi, "")
+    // Remove títulos em sequência (ex.: "Prof. MSc. Welber" → "Welber")
+    .replace(/^((Prof|Profa|Dr|Dra|Me|Ma|MSc|Msc|PhD|Esp)\.?\s+)+/gi, "")
     .split(/\s+/)
     .filter(Boolean)
     .slice(0, 2)
