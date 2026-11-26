@@ -9,7 +9,7 @@ periodo: "2025.2"
 capa: /projetos/alimentamais/capa.webp
 repositorio: https://github.com/JacobinaTech/mobile-alimenta-mais
 destaque: true
-status: em-andamento
+status: pausado
 ---
 
 ## A solução
