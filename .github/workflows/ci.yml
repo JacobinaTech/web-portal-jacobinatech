@@ -1,12 +1,19 @@
 name: CI
 
-# Valida todo PR: lint + build (o build valida o frontmatter de /content).
-# O deploy fica nos workflows firebase-hosting-*.yml.
+# lint + build (o build valida o frontmatter de /content). O deploy fica nos workflows firebase-hosting-*.yml.
+#
+# Roda no PUSH das branches do próprio repositório (e não no pull_request delas) porque os PRs abertos
+# automaticamente pelo auto-pr.yml usam o GITHUB_TOKEN, e eventos criados por ele não disparam workflows.
+# O ruleset exige o check "build" no último commit — vindo do push, ele vale para o PR do mesmo jeito.
+# PRs de forks não têm push neste repo, então para eles o CI roda no pull_request.
 on:
+  push:
+    branches-ignore: [main]
   pull_request:
 
 jobs:
   build:
+    if: ${{ github.event_name == 'push' || github.event.pull_request.head.repo.full_name != github.repository }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

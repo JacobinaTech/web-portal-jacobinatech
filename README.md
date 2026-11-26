@@ -52,9 +52,14 @@ Projeto Firebase: `jacobinatech` · site: https://jacobinatech.web.app
 
 | Workflow | Quando | O que faz |
 | --- | --- | --- |
-| `ci.yml` | todo PR | lint + build (valida o conteúdo) |
-| `firebase-hosting-pull-request.yml` | todo PR (do próprio repo) | deploy num **canal de preview** e comenta a URL no PR (expira em 7 dias) |
+| `auto-pr.yml` | 1º push de qualquer branch (≠ `main`) | **abre o PR** para a `main` e publica/comenta o primeiro preview |
+| `ci.yml` | push em branches (≠ `main`) e PRs de forks | lint + build (valida o conteúdo) — gera o check `build` exigido pelo ruleset |
+| `firebase-hosting-pull-request.yml` | pushes seguintes em PRs do próprio repo | atualiza o **canal de preview** e comenta a URL (expira em 7 dias) |
 | `firebase-hosting-merge.yml` | push na `main`, diário às 03:00 e manual | deploy em produção (`live`) |
+
+> PRs abertos pelo Actions (via `GITHUB_TOKEN`) não disparam outros workflows — por isso o CI roda no
+> push e o primeiro preview é feito pelo próprio `auto-pr.yml`. Requer em *Settings → Actions → General*:
+> **"Allow GitHub Actions to create and approve pull requests"** (também liberado no nível da organização).
 
 Requer o secret `FIREBASE_SERVICE_ACCOUNT_JACOBINATECH` no repositório, criado por
 `firebase init hosting:github` (responda **não** quando ele oferecer criar os workflows — eles já existem).
