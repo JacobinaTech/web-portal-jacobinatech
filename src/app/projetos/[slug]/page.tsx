@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Button, Container, NightBackdrop, Section, Tag } from "@/components/ui";
 import { site } from "@/config/site";
-import { getProfessores, getProjeto, getProjetos } from "@/lib/content";
+import { getProjeto, getProjetos } from "@/lib/content";
 
 export const dynamicParams = false;
 
@@ -33,20 +33,7 @@ export default async function ProjetoPage(props: PageProps<"/projetos/[slug]">) 
     ...(p.disciplina ? ([["Disciplina", p.disciplina]] as [string, string][]) : []),
     ["Integrantes", <ul key="i">{p.integrantes.map((n) => <li key={n}>{n}</li>)}</ul>],
     ...(p.orientadores.length
-      ? ([["Orientação", <ul key="o">{p.orientadores.map((n) => {
-          const prof = getProfessores().find((x) => x.nome === n);
-          return (
-            <li key={n}>
-              {prof ? (
-                <Link href={`/professores/${prof.slug}/`} className="underline decoration-indigo-300 decoration-2 underline-offset-4 hover:text-indigo-600">
-                  {n}
-                </Link>
-              ) : (
-                n
-              )}
-            </li>
-          );
-        })}</ul>]] as [string, React.ReactNode][])
+      ? ([["Orientação", <ul key="o">{p.orientadores.map((n) => <li key={n}>{n}</li>)}</ul>]] as [string, React.ReactNode][])
       : []),
   ];
 

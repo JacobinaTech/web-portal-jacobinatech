@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 import { site } from "@/config/site";
-import { getEventos, getProfessores, getProjetos } from "@/lib/content";
+import { getEventos, getProjetos } from "@/lib/content";
 
 export const dynamic = "force-static";
 
@@ -10,7 +10,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: u("/"), priority: 1 },
     { url: u("/projetos/"), priority: 0.9 },
     ...getProjetos().map((p) => ({ url: u(`/projetos/${p.slug}/`), priority: 0.7 })),
-    ...getProfessores().map((p) => ({ url: u(`/professores/${p.slug}/`), priority: 0.6 })),
     ...getEventos().map((e) => ({ url: u(`/eventos/${e.slug}/`), lastModified: e.data })),
   ];
 }
