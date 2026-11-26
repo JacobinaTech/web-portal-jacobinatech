@@ -61,7 +61,7 @@ src/
 
 ## Deploy (Firebase Hosting + GitHub Actions)
 
-Projeto Firebase: `jacobinatech` · site: https://jacobinatech.web.app
+Projeto Firebase: `jacobinatech` · site: https://jacobina.tech (também em https://jacobinatech.web.app)
 
 | Workflow | Quando | O que faz |
 | --- | --- | --- |

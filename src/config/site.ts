@@ -10,7 +10,7 @@ export const site = {
   tagline: "Tecnologia que transforma.",
   description:
     "Identidade digital do curso de Análise e Desenvolvimento de Sistemas em Jacobina: projetos, talentos e formação tecnológica na região.",
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://jacobinatech.web.app", // trocar quando houver domínio próprio
+  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://jacobina.tech",
   course: "Análise e Desenvolvimento de Sistemas",
   city: "Jacobina – BA",
   contact: {
