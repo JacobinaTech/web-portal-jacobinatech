@@ -21,6 +21,19 @@ npm run build    # valida o conteúdo e gera o site em out/
 npx serve out    # pré-visualiza o build estático
 ```
 
+## Marca e imagens de divulgação
+
+Templates em `brand/` (HTML com as mesmas fontes e cores do site), renderizados pelo Chrome headless:
+
+```bash
+npm run brand   # gera src/app/opengraph-image.png, twitter-image.png e brand/out/avatar.png
+```
+
+| Arquivo | Uso |
+| --- | --- |
+| `src/app/opengraph-image.png` (1200×630) | Prévia de links (WhatsApp, LinkedIn, X) — o Next adiciona as meta tags |
+| `brand/out/avatar.png` (1080×1080) | Foto de perfil do Instagram/LinkedIn (seguro para recorte circular) |
+
 ## Formato: landing + páginas de portfólio (híbrido)
 
 | Rota | Conteúdo |

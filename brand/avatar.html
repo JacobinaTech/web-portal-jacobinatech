@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Avatar — Jacobina.Tech (1080×1080)</title>
+<style id="base"></style>
+<style>
+  /* Pensado para recorte circular (Instagram/LinkedIn): tudo importante dentro do círculo central. */
+  .card{position:relative;width:1080px;height:1080px;overflow:hidden}
+  .glow{background:radial-gradient(circle at 50% 46%, rgb(99 102 241/.45), transparent 58%) !important}
+  .serra{position:absolute;left:0;bottom:0;color:rgb(165 180 252/.28)}
+  .mark{position:absolute;inset:0;display:grid;place-items:center;filter:drop-shadow(0 0 60px rgb(129 140 248/.55))}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="glow"></div>
+  <div class="serra" id="serra"></div>
+  <div class="mark" id="mark"></div>
+</div>
+<script type="module">
+  import { icon, serra, baseCss } from "./shared.js";
+  document.getElementById("base").textContent = baseCss;
+  document.getElementById("serra").innerHTML = serra(1080, 380, 7);
+  document.getElementById("mark").innerHTML = icon(560, "av");
+</script>
+</body>
+</html>
