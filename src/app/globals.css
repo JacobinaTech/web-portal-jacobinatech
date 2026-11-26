@@ -1,26 +1,116 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/*
+ * Design system Jacobina.Tech
+ * ink   → base escura (texto, hero, footer)
+ * paper → fundo claro quente
+ * gold  → acento/CTA (referência a Jacobina, "cidade do ouro") — usar com parcimônia
+ * mute  → textos secundários e bordas
+ */
+@theme {
+  --color-ink: #0b1020;
+  --color-ink-2: #141b31;
+  --color-night: #070b1f;
+  --color-paper: #f7f5ef;
+  --color-gold: #f5b301;
+  --color-gold-deep: #c98f00;
+  --color-mute: #5b6275;
+  --color-line: #e3dfd3;
+
+  --font-display: var(--font-space), ui-sans-serif, system-ui;
+  --font-sans: var(--font-dm), ui-sans-serif, system-ui;
+  --font-mono: var(--font-jet), ui-monospace, monospace;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+html {
+  scroll-behavior: smooth;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
   }
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  @apply bg-paper text-ink font-sans antialiased;
+}
+
+::selection {
+  @apply bg-gold text-ink;
+}
+
+:focus-visible {
+  @apply outline-2 outline-offset-2 outline-gold;
+}
+
+/* Seções da landing: compensa o header fixo ao navegar por âncora */
+section[id] {
+  scroll-margin-top: 4.5rem;
+}
+
+/* Linguagem visual: palavra-destaque em gradiente azul → violeta */
+.text-gradient {
+  @apply bg-gradient-to-r from-sky-400 via-indigo-400 to-violet-400 bg-clip-text text-transparent;
+}
+
+/* Iluminação ambiente das seções escuras */
+.night-glow {
+  background-image:
+    radial-gradient(ellipse 60% 50% at 75% 35%, rgb(99 102 241 / 0.28), transparent),
+    radial-gradient(ellipse 40% 40% at 10% 80%, rgb(14 165 233 / 0.12), transparent);
+}
+
+/* Conteúdo renderizado a partir de Markdown */
+.prose {
+  @apply text-[1.0625rem] leading-relaxed text-ink/85;
+}
+.prose > * + * {
+  @apply mt-5;
+}
+.prose h2 {
+  @apply mt-12 font-display text-2xl font-semibold text-ink;
+}
+.prose h3 {
+  @apply mt-8 font-display text-xl font-semibold text-ink;
+}
+.prose a {
+  @apply font-medium text-ink underline decoration-gold decoration-2 underline-offset-4 hover:decoration-ink;
+}
+.prose ul {
+  @apply list-disc space-y-2 pl-6 marker:text-gold-deep;
+}
+.prose ol {
+  @apply list-decimal space-y-2 pl-6 marker:text-gold-deep;
+}
+.prose blockquote {
+  @apply border-l-4 border-gold pl-5 italic text-ink/70;
+}
+.prose code {
+  @apply rounded bg-ink/5 px-1.5 py-0.5 font-mono text-[0.9em];
+}
+.prose pre {
+  @apply overflow-x-auto rounded-xl bg-ink p-5 text-sm text-paper;
+}
+.prose pre code {
+  @apply bg-transparent p-0;
+}
+.prose img {
+  @apply rounded-xl border border-line;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
 }

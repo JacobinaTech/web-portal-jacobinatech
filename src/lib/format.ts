@@ -1,0 +1,20 @@
+// Datas do conteúdo são "só data" (ex.: 2026-12-12) e o parser as lê como meia-noite UTC.
+// Formatar em UTC evita exibir o dia anterior em fusos negativos (Bahia = UTC−3).
+const tz = "UTC";
+
+export const formatDate = (d: Date) =>
+  new Intl.DateTimeFormat("pt-BR", { day: "2-digit", month: "long", year: "numeric", timeZone: tz }).format(d);
+
+export const formatDay = (d: Date) => ({
+  day: new Intl.DateTimeFormat("pt-BR", { day: "2-digit", timeZone: tz }).format(d),
+  month: new Intl.DateTimeFormat("pt-BR", { month: "short", timeZone: tz }).format(d).replace(".", ""),
+});
+
+export const initials = (name: string) =>
+  name
+    .replace(/^(Prof\.?|Profa\.?|Dr\.?|Dra\.?|Me\.?|Ma\.?)\s+/gi, "")
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((w) => w[0]!.toUpperCase())
+    .join("");

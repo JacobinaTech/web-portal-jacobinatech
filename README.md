@@ -1,36 +1,76 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Jacobina.Tech — Tecnologia que transforma.
 
-## Getting Started
+Identidade digital do curso de Análise e Desenvolvimento de Sistemas em Jacobina: divulgar projetos, conectar talentos e fortalecer a formação tecnológica na região.
 
-First, run the development server:
+## Stack e decisões
+
+| Decisão | Por quê |
+| --- | --- |
+| **Next.js 16 (App Router) + export estático** (`output: "export"`) | Zero servidor para manter: hospeda em GitHub Pages, Netlify, S3 ou Firebase Hosting de graça. Se surgir necessidade de backend, basta remover o `output: "export"`. |
+| **Conteúdo em Markdown no próprio repositório** (`content/`) | Alunos publicam por Pull Request: Git, code review e CI viram parte da formação. Sem CMS, sem banco, sem custo. |
+| **Validação com Zod no build** (`src/lib/schemas.ts`) | Frontmatter errado quebra o CI com mensagem clara. O schema é o contrato do conteúdo. |
+| **Camada de acesso isolada** (`src/lib/content.ts`) | Migrar para um CMS headless ou API no futuro muda só esse arquivo. |
+| **Tailwind v4 + design tokens** (`src/app/globals.css`) | Identidade centralizada em `@theme`: navy + luz azul/violeta, dourado como acento de ação ("cidade do ouro"). |
+
+## Rodando
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev      # http://localhost:3000
+npm run build    # valida o conteúdo e gera o site em out/
+npx serve out    # pré-visualiza o build estático
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Formato: landing + páginas de portfólio (híbrido)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| Rota | Conteúdo |
+| --- | --- |
+| `/` | Landing com seções-âncora: `#encontros`, `#projetos`, `#curso`, `#professores`, `#participar`, `#contato` |
+| `/projetos/` e `/projetos/[slug]/` | Índice e página de cada projeto (URL para currículo/LinkedIn) |
+| `/eventos/[slug]/` | Página de cada encontro (link de divulgação) |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+O **blog** está fora do ar até haver ritmo de publicação: os posts continuam em `content/blog/` e a
+camada `getPosts()` segue pronta. Qualquer seção da landing pode voltar a ser página quando crescer.
 
-## Learn More
+## Estrutura
 
-To learn more about Next.js, take a look at the following resources:
+```
+content/                 # TODO o conteúdo editável (Markdown + frontmatter)
+  projetos/  professores/  eventos/  blog/   (+ _modelo.md em cada pasta)
+src/
+  config/site.ts         # nome, contatos, redes, menu (âncoras), quadros editoriais
+  lib/schemas.ts         # contratos do conteúdo (Zod)
+  lib/content.ts         # leitura + validação + Markdown → HTML
+  components/home/       # seções da landing (hero, encontros, projetos, curso, professores, participar, contato)
+  components/            # UI compartilhada (header, footer, cards, hero-constellation, primitives)
+  app/                   # rotas: /  /projetos  /projetos/[slug]  /eventos/[slug]
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Deploy (Firebase Hosting + GitHub Actions)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Projeto Firebase: `jacobinatech` · site: https://jacobinatech.web.app
 
-## Deploy on Vercel
+| Workflow | Quando | O que faz |
+| --- | --- | --- |
+| `ci.yml` | todo PR | lint + build (valida o conteúdo) |
+| `firebase-hosting-pull-request.yml` | todo PR (do próprio repo) | deploy num **canal de preview** e comenta a URL no PR (expira em 7 dias) |
+| `firebase-hosting-merge.yml` | push na `main`, diário às 03:00 e manual | deploy em produção (`live`) |
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Requer o secret `FIREBASE_SERVICE_ACCOUNT_JACOBINATECH` no repositório, criado por
+`firebase init hosting:github` (responda **não** quando ele oferecer criar os workflows — eles já existem).
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Deploy manual, se necessário: `npm run build && firebase deploy --only hosting`.
+
+## Antes de publicar
+
+- [ ] Substituir o **conteúdo de exemplo** em `content/` (projetos, professores, eventos e posts marcados como exemplo)
+- [ ] Preencher os `TODO` em `src/config/site.ts` (e-mail, redes, repositório, domínio)
+- [ ] Validar o texto de `src/components/home/curso.tsx` com a coordenação (dados oficiais do PPC)
+- [ ] Foto real (autorizada) de estudantes para o hero: prop `photo` em `src/components/hero-constellation.tsx`
+- [ ] **Alinhar com a coordenação e a comunicação da instituição** o uso de marca, imagens de estudantes e informações oficiais do curso
+- [ ] Coletar autorização de uso de imagem/nome de estudantes e professores
+- [ ] Configurar `NEXT_PUBLIC_SITE_URL` no ambiente de build (sitemap e Open Graph)
+
+## Contribuindo
+
+Veja [CONTRIBUTING.md](CONTRIBUTING.md).
