@@ -5,6 +5,7 @@ import { Tag } from "./ui";
 
 const statusLabel: Record<Projeto["status"], string> = {
   "em-andamento": "Em andamento",
+  pausado: "Pausado",
   concluido: "Concluído",
   "em-producao": "Em produção",
 };
@@ -54,3 +55,7 @@ export function ProjetoCard({ projeto }: { projeto: Entry<Projeto> }) {
     </article>
   );
 }
+
+/** Grade dos cards de projeto: com 1–2 projetos ocupa a largura toda (sem coluna vazia); com 3+, três colunas. */
+export const projetoGrid = (count: number) =>
+  `grid gap-6 md:grid-cols-2 ${count >= 3 ? "lg:grid-cols-3" : ""}`;

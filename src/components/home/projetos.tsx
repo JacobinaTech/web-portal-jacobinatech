@@ -1,4 +1,4 @@
-import { ProjetoCard } from "@/components/cards";
+import { ProjetoCard, projetoGrid } from "@/components/cards";
 import { Button, Container, SectionHeader } from "@/components/ui";
 import type { Entry } from "@/lib/content";
 import type { Projeto } from "@/lib/schemas";
@@ -21,7 +21,7 @@ export function Projetos({ projetos }: { projetos: Entry<Projeto>[] }) {
             </Button>
           }
         />
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div className={projetoGrid(projetos.length)}>
           {projetos.map((p) => (
             <ProjetoCard key={p.slug} projeto={p} />
           ))}
