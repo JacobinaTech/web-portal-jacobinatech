@@ -16,6 +16,7 @@ Em ambos, o merge na `main` exige os checks `branch-name` e `build` verdes e a a
    - `fix/<descricao>` — correção. Ex.: `fix/link-quebrado-contato`
    - `ci/<descricao>` — automação/workflows. Ex.: `ci/cache-build`
    - `doc/<descricao>` — documentação (README, CONTRIBUTING, guias). Ex.: `doc/guia-primeiro-pr`
+   - `teste/<descricao>` — testes automatizados ou experimentos. Ex.: `teste/validacao-schemas`
 
    Use minúsculas, números e hífens. **Branches fora desse padrão não abrem PR automático e não podem ser mescladas** (o check `branch-name` falha).
 2. Rode localmente: `npm install && npm run dev` → http://localhost:3000
