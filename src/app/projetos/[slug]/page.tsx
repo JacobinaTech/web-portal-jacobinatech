@@ -40,8 +40,26 @@ export default async function ProjetoPage(props: PageProps<"/projetos/[slug]">) 
   return (
     <>
       <section className="relative overflow-hidden bg-night text-paper">
-        <NightBackdrop />
-        <Container className="relative pb-14 pt-32 sm:pt-40">
+        {p.capa ? (
+          <>
+            {/* Capa como fundo do header: visível à direita, escurecida à esquerda para o texto. */}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={p.capa}
+              alt={`Capa do projeto ${p.titulo}`}
+              className="absolute inset-0 h-full w-full object-cover object-right"
+            />
+            {/* Mobile: escurece a capa inteira (não há "lado livre"); desktop: degradê da esquerda para a direita. */}
+            <div
+              className="absolute inset-0 bg-night/85 lg:bg-transparent lg:bg-gradient-to-r lg:from-night lg:from-25% lg:via-night/85 lg:via-55% lg:to-night/25"
+              aria-hidden
+            />
+            <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-night to-transparent" aria-hidden />
+          </>
+        ) : (
+          <NightBackdrop />
+        )}
+        <Container className="relative pb-20 pt-32 sm:pb-28 sm:pt-40">
           <Link href="/projetos/" className="inline-flex items-center gap-2 rounded-full bg-white/5 px-3.5 py-1.5 text-sm text-paper/80 ring-1 ring-white/15 hover:text-paper">
             ← Projetos
           </Link>
@@ -73,16 +91,10 @@ export default async function ProjetoPage(props: PageProps<"/projetos/[slug]">) 
         </Container>
       </section>
 
-      {p.capa && (
-        <Container className="-mt-2 pt-12">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={p.capa} alt={`Capa do projeto ${p.titulo}`} className="w-full rounded-3xl border border-line" />
-        </Container>
-      )}
-
       <Section className="pt-14 sm:pt-20">
         <Container className="grid gap-14 lg:grid-cols-[1fr_300px]">
-          <div>
+          {/* min-w-0: sem isso, blocos de código/tabelas largos esticam a coluna e geram rolagem horizontal no mobile */}
+          <div className="min-w-0">
             <div className="rounded-3xl border-l-4 border-indigo-400 bg-white p-7 sm:p-8">
               <p className="text-sm font-semibold text-indigo-600">O problema</p>
               <p className="mt-3 font-display text-xl leading-relaxed text-ink sm:text-2xl">{p.problema}</p>
