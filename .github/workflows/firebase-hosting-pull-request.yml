@@ -6,8 +6,8 @@ name: Preview (Firebase Hosting)
 # - build: roda o código da branch SEM acesso a secrets e gera o site como artefato.
 # - deploy: usa o environment "preview" (aprovação obrigatória do time professores), pega o firebase.json
 #   da MAIN (ele aceita hooks de predeploy) e só publica o artefato — nenhum código da branch roda aqui.
-# O primeiro preview de PRs abertos pelo auto-pr.yml é feito por ele; este cobre os pushes seguintes
-# e PRs abertos manualmente.
+# Cobre a abertura e todos os pushes do PR. Em PRs abertos pelo auto-pr.yml (github-actions[bot]),
+# a primeira execução pede "Approve and run workflows" no PR antes de rodar.
 on:
   pull_request:
 

@@ -65,15 +65,16 @@ Projeto Firebase: `jacobinatech` · site: https://jacobina.tech (também em http
 
 | Workflow | Quando | O que faz |
 | --- | --- | --- |
-| `auto-pr.yml` | 1º push de branch `feat/…`, `fix/…`, `ci/…` ou `doc/…` | **abre o PR** para a `main` e publica/comenta o primeiro preview |
+| `auto-pr.yml` | 1º push de branch `feat/…`, `fix/…`, `ci/…` ou `doc/…` | **abre o PR** para a `main` |
 | `ci.yml` | push em `feat/…`, `fix/…`, `ci/…`, `doc/…` e todo PR | checks `branch-name` (padrão do nome) e `build` (lint + build + validação do conteúdo), exigidos pelo ruleset |
-| `firebase-hosting-pull-request.yml` | pushes seguintes em PRs do próprio repo | atualiza o **canal de preview** e comenta a URL (expira em 7 dias) |
+| `firebase-hosting-pull-request.yml` | todo PR do próprio repo (abertura e pushes) | build sem secret → deploy no **canal de preview** (environment `preview`, com aprovação) e comenta a URL (expira em 7 dias) |
 | `firebase-hosting-merge.yml` | push na `main`, diário às 03:00 e manual | deploy em produção (`live`), environment `production` |
 | `pr-guard.yml` | todo PR (versão da `main`) | alerta quando o PR altera workflows ou config de deploy |
 
-> PRs abertos pelo Actions (via `GITHUB_TOKEN`) não disparam outros workflows — por isso o CI roda no
-> push e o primeiro preview é feito pelo próprio `auto-pr.yml`. Requer em *Settings → Actions → General*:
-> **"Allow GitHub Actions to create and approve pull requests"** (também liberado no nível da organização).
+> PRs abertos pelo Actions (via `GITHUB_TOKEN`) disparam o `pull_request`, mas o GitHub pede
+> **"Approve and run workflows"** no PR na primeira execução. Por isso os checks exigidos (`branch-name`, `build`)
+> rodam no push. Requer em *Settings → Actions → General*: **"Allow GitHub Actions to create and approve pull requests"**
+> (também liberado no nível da organização).
 
 Requer o secret `FIREBASE_SERVICE_ACCOUNT_JACOBINATECH` nos environments `preview` e `production`, criado por
 `firebase init hosting:github` (responda **não** quando ele oferecer criar os workflows — eles já existem).
