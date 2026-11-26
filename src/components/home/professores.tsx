@@ -2,6 +2,7 @@ import { Avatar, Container, SectionHeader, Tag } from "@/components/ui";
 import type { Entry } from "@/lib/content";
 import type { Professor } from "@/lib/schemas";
 import { initials } from "@/lib/format";
+import { site } from "@/config/site";
 
 export function Professores({ professores }: { professores: Entry<Professor>[] }) {
   if (!professores.length) return null;
@@ -12,7 +13,7 @@ export function Professores({ professores }: { professores: Entry<Professor>[] }
         <SectionHeader
           eyebrow="Professores"
           title="Quem orienta a jornada."
-          description="Experiência acadêmica e de mercado, acompanhando de perto cada projeto."
+          description={`Professores do curso de ADS da ${site.institution.name}, com experiência acadêmica e de mercado, acompanhando de perto cada projeto.`}
         />
         <div className="grid content-start gap-4 sm:grid-cols-2">
           {professores.map((p) => {

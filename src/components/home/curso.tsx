@@ -1,5 +1,5 @@
 import { Button, Container, NightBackdrop, SectionHeader } from "@/components/ui";
-import { contactHref } from "@/config/site";
+import { contactHref, site } from "@/config/site";
 
 /*
  * TODO (coordenação): os eixos abaixo são uma visão geral. Duração, modalidade, turno,
@@ -25,13 +25,13 @@ export function Curso() {
       <Container className="relative">
         <SectionHeader
           dark
-          eyebrow="O curso"
+          eyebrow={`O curso · ${site.institution.name}`}
           title={
             <>
               Análise e <span className="text-gradient">Desenvolvimento de Sistemas</span>
             </>
           }
-          description="Formação prática para projetar, construir e manter software — com projetos reais e conexão com empresas da região."
+          description={`Formação prática na ${site.institution.name} para projetar, construir e manter software — com projetos reais e conexão com empresas da região.`}
         />
 
         <div className="grid gap-10 lg:grid-cols-[1fr_1.4fr]">
