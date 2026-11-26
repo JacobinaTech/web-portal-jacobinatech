@@ -36,7 +36,6 @@ export const site = {
  * próprias. Quando uma seção crescer, ela pode voltar a ser página sem mudar o modelo de conteúdo.
  */
 export const nav = [
-  { href: "/#encontros", label: "Encontros" },
   { href: "/#projetos", label: "Projetos" },
   { href: "/#curso", label: "O curso" },
   { href: "/#professores", label: "Professores" },

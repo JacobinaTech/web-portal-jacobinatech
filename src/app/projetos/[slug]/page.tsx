@@ -7,8 +7,10 @@ import { getProjeto, getProjetos } from "@/lib/content";
 
 export const dynamicParams = false;
 
+// output: "export" exige ao menos uma página; com a lista vazia, gera uma sentinela que responde 404.
 export function generateStaticParams() {
-  return getProjetos().map((p) => ({ slug: p.slug }));
+  const params = getProjetos().map((p) => ({ slug: p.slug }));
+  return params.length ? params : [{ slug: "_sem-projetos" }];
 }
 
 export async function generateMetadata(props: PageProps<"/projetos/[slug]">): Promise<Metadata> {
