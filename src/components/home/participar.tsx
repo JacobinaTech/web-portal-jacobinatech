@@ -12,9 +12,10 @@ const portas = [
   },
   {
     quem: "Tem uma empresa",
-    oque: "Encontre talentos da região, proponha desafios reais e apoie os encontros.",
+    oque: "Divulgue vagas, estágios e freelas para quem está se formando aqui, proponha desafios reais para projetos e hackathons e apoie os encontros.",
     href: contactHref,
-    cta: "Falar com a comunidade",
+    cta: "Divulgar oportunidade",
+    extra: { href: contactHref, label: "Enviar um desafio" },
   },
   {
     quem: "Já trabalha com TI",
@@ -41,6 +42,11 @@ export function Participar() {
               >
                 {p.cta} <span aria-hidden>→</span>
               </Link>
+              {"extra" in p && p.extra && (
+                <Link href={p.extra.href} className="mt-3 self-start text-sm font-semibold text-ink underline decoration-gold decoration-2 underline-offset-4 hover:decoration-ink">
+                  {p.extra.label} →
+                </Link>
+              )}
             </div>
           ))}
         </div>

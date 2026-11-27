@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Capa — InAlerta (1280×720)</title>
+<style id="base"></style>
+<style>
+  .card{position:relative;width:1280px;height:720px;overflow:hidden;color:#f7f5ef;font-family:"DM Sans"}
+  .fire{position:absolute;inset:0;background:
+    radial-gradient(ellipse 45% 55% at 32% 62%, rgb(249 115 22/.30), transparent),
+    radial-gradient(ellipse 35% 40% at 85% 20%, rgb(99 102 241/.30), transparent)}
+  .grid{position:absolute;inset:0;background-image:
+    linear-gradient(to right, rgb(255 255 255/.045) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(255 255 255/.045) 1px, transparent 1px);background-size:64px 64px}
+  .terrain{position:absolute;left:0;bottom:0;color:rgb(251 146 60/.35)}
+  .glass{position:absolute;border-radius:22px;background:rgb(255 255 255/.06);backdrop-filter:blur(10px);
+    box-shadow:0 0 50px -14px rgb(129 140 248/.6), inset 0 0 0 1.5px rgb(255 255 255/.14)}
+  .name{position:absolute;left:64px;top:56px;font:700 34px "Space Grotesk";letter-spacing:-.03em}
+  .name small{display:block;font:500 17px "DM Sans";letter-spacing:0;color:rgb(247 245 239/.6);margin-top:6px}
+  .chip{display:inline-flex;align-items:center;gap:8px;border-radius:999px;padding:6px 12px;font:600 13px "DM Sans"}
+  .bar{height:9px;border-radius:9px;background:rgb(255 255 255/.18);margin-top:10px}
+  .mono{font:500 14px "JetBrains Mono"}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="glow"></div><div class="fire"></div><div class="grid"></div>
+  <div class="terrain" id="terrain"></div>
+  <svg id="layer" width="1280" height="720" style="position:absolute;inset:0"></svg>
+
+  <div class="name">InAlerta<small>Monitoramento de queimadas com IA</small></div>
+
+  <!-- Fonte dos dados -->
+  <div class="glass" style="left:64px;top:170px;width:270px;padding:20px 22px">
+    <div class="mono" style="color:rgb(247 245 239/.6)">fonte</div>
+    <div style="font:700 20px 'Space Grotesk';margin-top:4px">INPE · Queimadas</div>
+    <div class="chip" style="margin-top:12px;background:rgb(56 189 248/.15);color:#7dd3fc">⟳ a cada 10 min</div>
+  </div>
+
+  <!-- Análise de risco -->
+  <div class="glass" style="right:64px;top:300px;width:380px;padding:24px 26px">
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <div style="font:700 21px 'Space Grotesk'">Análise de risco</div>
+      <div class="chip" style="background:rgb(239 68 68/.18);color:#fca5a5">● risco alto</div>
+    </div>
+    <div class="mono" style="margin-top:6px;color:rgb(167 139 250)">Gemini · IA generativa</div>
+    <div class="bar" style="width:100%;margin-top:18px"></div>
+    <div class="bar" style="width:92%"></div>
+    <div class="bar" style="width:70%"></div>
+    <div class="mono" style="margin-top:18px;color:rgb(247 245 239/.55)">GET /queimadas/recentes · 200 OK</div>
+  </div>
+</div>
+<script type="module">
+  import { serra, baseCss } from "../shared.js";
+  document.getElementById("base").textContent = baseCss;
+  document.getElementById("terrain").innerHTML = serra(1280, 330, 10);
+
+  // Focos de queimada (posições determinísticas, agrupadas como em detecção por satélite)
+  let seed = 7; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+  const clusters = [[330, 470, 26], [520, 545, 18], [215, 590, 14], [690, 470, 10], [450, 380, 9]];
+  let dots = "";
+  for (const [cx, cy, n] of clusters) for (let i = 0; i < n; i++) {
+    const x = cx + (rnd() - .5) * 170, y = cy + (rnd() - .5) * 95, r = 3 + rnd() * 4.5;
+    dots += `<circle cx="${x}" cy="${y}" r="${r * 3.2}" fill="url(#halo)"/><circle cx="${x}" cy="${y}" r="${r}" fill="url(#core)"/>`;
+  }
+  document.getElementById("layer").innerHTML = `
+    <defs>
+      <radialGradient id="core"><stop offset="0" stop-color="#fff7d6"/><stop offset=".45" stop-color="#fbbf24"/><stop offset="1" stop-color="#f97316"/></radialGradient>
+      <radialGradient id="halo"><stop offset="0" stop-color="#f97316" stop-opacity=".55"/><stop offset="1" stop-color="#ef4444" stop-opacity="0"/></radialGradient>
+      <linearGradient id="orb" x1="0" x2="1"><stop offset="0" stop-color="#38bdf8" stop-opacity="0"/><stop offset=".6" stop-color="#818cf8"/><stop offset="1" stop-color="#a78bfa"/></linearGradient>
+    </defs>
+    <path d="M -40 360 Q 640 -120 1320 250" fill="none" stroke="url(#orb)" stroke-width="2" stroke-dasharray="6 9"/>
+    <g transform="translate(1010 92) rotate(-18)">
+      <rect x="-14" y="-14" width="28" height="28" rx="5" fill="#c7d2fe"/>
+      <rect x="-62" y="-9" width="40" height="18" rx="3" fill="#6366f1"/><rect x="22" y="-9" width="40" height="18" rx="3" fill="#6366f1"/>
+      <path d="M0 14 L0 30" stroke="#c7d2fe" stroke-width="3"/>
+    </g>
+    <path d="M1010 122 L 520 520" stroke="#7dd3fc" stroke-opacity=".25" stroke-width="2" stroke-dasharray="3 7"/>
+    ${dots}`;
+</script>
+</body>
+</html>

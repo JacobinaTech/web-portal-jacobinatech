@@ -108,7 +108,7 @@ export function TextLink({ href, children }: { href: string; children: ReactNode
 export function Tag({ children, dark = false }: { children: ReactNode; dark?: boolean }) {
   return (
     <span
-      className={`inline-flex items-center rounded-full px-2.5 py-1 font-mono text-[0.7rem] font-medium ${
+      className={`inline-flex items-center whitespace-nowrap rounded-full px-2.5 py-1 font-mono text-[0.7rem] font-medium ${
         dark ? "bg-white/10 text-paper/85" : "bg-ink/[0.06] text-ink/75"
       }`}
     >

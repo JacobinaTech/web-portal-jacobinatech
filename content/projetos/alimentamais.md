@@ -4,11 +4,12 @@ resumo: App mobile que conecta doadores de alimentos a ONGs e iniciativas susten
 problema: Muito alimento em boas condições é desperdiçado enquanto ONGs e famílias têm dificuldade de encontrar doações — falta um canal simples que conecte quem quer doar a quem precisa receber.
 tecnologias: [React Native, Expo, TypeScript, Firebase Auth, Firestore]
 integrantes: [Luan Menezes, Isaac Almeida]
-orientadores: [Prof. Me. Welber Macedo]
+orientadores: [Prof. MSc. Welber]
 periodo: "2025.2"
+capa: /projetos/alimentamais/capa.webp
 repositorio: https://github.com/JacobinaTech/mobile-alimenta-mais
 destaque: true
-status: em-andamento
+status: pausado
 ---
 
 ## A solução

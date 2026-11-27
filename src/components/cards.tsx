@@ -30,7 +30,7 @@ export function ProjetoCard({ projeto }: { projeto: Entry<Projeto> }) {
           </div>
         )}
         {projeto.destaque && (
-          <span className="absolute left-4 top-4 rounded-full bg-gold px-3 py-1 text-xs font-semibold text-ink">
+          <span className="absolute right-4 top-4 rounded-full bg-gold px-3 py-1 text-xs font-semibold text-ink shadow-lg shadow-black/30">
             ★ Destaque
           </span>
         )}

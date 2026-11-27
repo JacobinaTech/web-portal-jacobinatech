@@ -8,7 +8,7 @@ export function Hero({ projeto }: { projeto?: { titulo: string } }) {
     <section className="relative overflow-hidden bg-night text-paper">
       <NightBackdrop />
       <Serra className="absolute inset-x-0 bottom-0 h-[30%] w-full text-indigo-300/30" />
-      <Container className="relative grid items-center gap-12 pb-40 pt-32 sm:pb-52 sm:pt-40 lg:grid-cols-[1fr_1.05fr] lg:gap-6">
+      <Container className="relative grid items-center gap-12 pb-24 pt-32 sm:pb-32 sm:pt-40 lg:grid-cols-[1fr_1.05fr] lg:gap-6">
         <div>
           <Eyebrow dark>Jacobina e Piemonte da Diamantina</Eyebrow>
           <h1 className="mt-7 font-display text-[clamp(2.75rem,6vw,5.25rem)] font-bold leading-[1.02] tracking-[-0.035em]">
@@ -22,7 +22,7 @@ export function Hero({ projeto }: { projeto?: { titulo: string } }) {
             na região.
           </p>
           <div className="mt-10 flex flex-wrap gap-3">
-            <Button href="/#encontros">Próximos encontros</Button>
+            <Button href="/#projetos">Ver projetos</Button>
             <Button href="/#participar" variant="ghost">
               Fazer parte
             </Button>

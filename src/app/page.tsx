@@ -1,6 +1,6 @@
 import { Contato } from "@/components/home/contato";
+import { Agenda } from "@/components/home/agenda";
 import { Curso } from "@/components/home/curso";
-import { Encontros } from "@/components/home/encontros";
 import { Hero } from "@/components/home/hero";
 import { Participar } from "@/components/home/participar";
 import { Professores } from "@/components/home/professores";
@@ -16,8 +16,8 @@ export default function Home() {
   return (
     <>
       <Hero projeto={projetos[0]} />
-      <Encontros proximos={splitEventos().proximos} />
       <Projetos projetos={projetos.slice(0, 3)} />
+      <Agenda proximos={splitEventos().proximos} />
       <Curso />
       <Professores professores={getProfessores()} />
       <Participar />

@@ -4,8 +4,9 @@ resumo: API que monitora focos de queimada detectados por satélite e usa IA gen
 problema: O INPE publica focos de queimada a cada 10 minutos, mas em arquivos CSV brutos e sem interpretação — o que dificulta transformar a detecção por satélite em alerta e ação rápida.
 tecnologias: [Java 21, Spring Boot, Firebase Firestore, Gemini (IA), API do INPE]
 integrantes: [Lucca Nascimento, Juliana Bastos Ghisi Santana, Ian Gabriel Guimarães de Almeida]
-orientadores: [Prof. Me. Welber Macedo]
+orientadores: [Prof. MSc. Welber]
 periodo: "2025.2"
+capa: /projetos/inalerta/capa.webp
 repositorio: https://github.com/JacobinaTech/api-in-alerta
 destaque: true
 status: pausado

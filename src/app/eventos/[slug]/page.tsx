@@ -4,12 +4,15 @@ import { notFound } from "next/navigation";
 import { Button, Container, PageHero, Section } from "@/components/ui";
 import { tiposEvento } from "@/config/site";
 import { getEvento, getEventos } from "@/lib/content";
-import { formatDate } from "@/lib/format";
+import { formatEventoData } from "@/lib/format";
 
 export const dynamicParams = false;
 
+// Com output: "export", a rota precisa gerar ao menos uma página. Eventos são raros e a lista pode
+// ficar vazia: nesse caso geramos uma sentinela que responde 404 (getEvento não a encontra).
 export function generateStaticParams() {
-  return getEventos().map((e) => ({ slug: e.slug }));
+  const params = getEventos().map((e) => ({ slug: e.slug }));
+  return params.length ? params : [{ slug: "_sem-eventos" }];
 }
 
 export async function generateMetadata(props: PageProps<"/eventos/[slug]">): Promise<Metadata> {
@@ -26,14 +29,14 @@ export default async function EventoPage(props: PageProps<"/eventos/[slug]">) {
   return (
     <>
       <PageHero eyebrow={tiposEvento[e.tipo]} title={e.titulo} description={e.resumo}>
-        <Link href="/#encontros" className="mt-6 inline-block text-sm text-paper/60 hover:text-paper">
-          ← Todos os encontros
+        <Link href="/" className="mt-6 inline-block text-sm text-paper/60 hover:text-paper">
+          ← Início
         </Link>
         <dl className="mt-10 flex flex-wrap gap-x-10 gap-y-4 text-sm">
           <div>
             <dt className="text-sm text-paper/50">Data</dt>
             <dd className="mt-1 font-medium">
-              <time dateTime={e.data.toISOString()}>{formatDate(e.data)}</time>
+              <time dateTime={e.dataPrevista ? e.data.toISOString().slice(0, 7) : e.data.toISOString().slice(0, 10)}>{formatEventoData(e)}</time>
             </dd>
           </div>
           <div>
