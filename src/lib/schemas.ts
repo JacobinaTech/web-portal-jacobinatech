@@ -43,6 +43,8 @@ export const eventoSchema = z.object({
   titulo: nonEmpty,
   tipo: z.enum(tipoEventoIds),
   data: date,
+  // true = só o mês está definido (use o dia 01, ex.: 2026-12-01); exibe "previsto para dezembro de 2026"
+  dataPrevista: z.boolean().default(false),
   local: nonEmpty,
   resumo: nonEmpty,
   inscricao: url.optional(),

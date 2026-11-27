@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { Button, Container, PageHero, Section } from "@/components/ui";
 import { tiposEvento } from "@/config/site";
 import { getEvento, getEventos } from "@/lib/content";
-import { formatDate } from "@/lib/format";
+import { formatEventoData } from "@/lib/format";
 
 export const dynamicParams = false;
 
@@ -36,7 +36,7 @@ export default async function EventoPage(props: PageProps<"/eventos/[slug]">) {
           <div>
             <dt className="text-sm text-paper/50">Data</dt>
             <dd className="mt-1 font-medium">
-              <time dateTime={e.data.toISOString()}>{formatDate(e.data)}</time>
+              <time dateTime={e.dataPrevista ? e.data.toISOString().slice(0, 7) : e.data.toISOString().slice(0, 10)}>{formatEventoData(e)}</time>
             </dd>
           </div>
           <div>

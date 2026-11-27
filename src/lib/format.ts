@@ -5,6 +5,21 @@ const tz = "UTC";
 export const formatDate = (d: Date) =>
   new Intl.DateTimeFormat("pt-BR", { day: "2-digit", month: "long", year: "numeric", timeZone: tz }).format(d);
 
+export const formatMesAno = (d: Date) =>
+  new Intl.DateTimeFormat("pt-BR", { month: "long", year: "numeric", timeZone: tz }).format(d);
+
+/** Data do evento por extenso: dia exato ou "previsto para <mês> de <ano>". */
+export const formatEventoData = (e: { data: Date; dataPrevista?: boolean }) =>
+  e.dataPrevista ? `Previsto para ${formatMesAno(e.data)}` : formatDate(e.data);
+
+/** Selo de data: dia + mês, ou mês + ano quando a data é prevista. */
+export const formatEventoSelo = (e: { data: Date; dataPrevista?: boolean }) => {
+  const mes = new Intl.DateTimeFormat("pt-BR", { month: "short", timeZone: tz }).format(e.data).replace(".", "");
+  return e.dataPrevista
+    ? { topo: mes, base: String(e.data.getUTCFullYear()) }
+    : { topo: new Intl.DateTimeFormat("pt-BR", { day: "2-digit", timeZone: tz }).format(e.data), base: mes };
+};
+
 export const formatDay = (d: Date) => ({
   day: new Intl.DateTimeFormat("pt-BR", { day: "2-digit", timeZone: tz }).format(d),
   month: new Intl.DateTimeFormat("pt-BR", { month: "short", timeZone: tz }).format(d).replace(".", ""),

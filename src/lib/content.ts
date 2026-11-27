@@ -78,13 +78,18 @@ export const getEventos = () =>
 
 export const getEvento = (slug: string) => getEventos().find((e) => e.slug === slug);
 
+/** Último instante em que o evento ainda conta como "próximo": o dia, ou o fim do mês se a data é prevista. */
+const fimDoEvento = (e: Evento) =>
+  e.dataPrevista
+    ? new Date(Date.UTC(e.data.getUTCFullYear(), e.data.getUTCMonth() + 1, 0, 23, 59, 59))
+    : new Date(Date.UTC(e.data.getUTCFullYear(), e.data.getUTCMonth(), e.data.getUTCDate(), 23, 59, 59));
+
 /** Separa próximos (ordem cronológica) e realizados (mais recentes primeiro). */
 export function splitEventos(now = new Date()) {
-  const today = new Date(now.toDateString());
   const all = getEventos();
   return {
-    proximos: all.filter((e) => e.data >= today).reverse(),
-    realizados: all.filter((e) => e.data < today),
+    proximos: all.filter((e) => fimDoEvento(e) >= now).reverse(),
+    realizados: all.filter((e) => fimDoEvento(e) < now),
   };
 }
 

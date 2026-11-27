@@ -59,6 +59,7 @@ export type QuadroId = keyof typeof quadros;
 export const quadroIds = Object.keys(quadros) as [QuadroId, ...QuadroId[]];
 
 export const tiposEvento = {
+  curso: "Curso",
   palestra: "Palestra",
   workshop: "Workshop",
   hackathon: "Hackathon",
