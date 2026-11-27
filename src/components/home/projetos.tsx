@@ -8,7 +8,7 @@ export function Projetos({ projetos }: { projetos: Entry<Projeto>[] }) {
     <section id="projetos" className="py-24 sm:py-32">
       <Container>
         <SectionHeader
-          eyebrow="Nasceu em Jacobina"
+          eyebrow="Feito na região"
           title={
             <>
               Projetos que resolvem <span className="text-gradient">problemas reais</span>.
