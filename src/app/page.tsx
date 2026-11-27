@@ -1,5 +1,5 @@
 import { Contato } from "@/components/home/contato";
-import { Chamadas } from "@/components/home/chamadas";
+import { Agenda } from "@/components/home/agenda";
 import { Curso } from "@/components/home/curso";
 import { Hero } from "@/components/home/hero";
 import { Participar } from "@/components/home/participar";
@@ -15,9 +15,9 @@ export default function Home() {
   const projetos = getProjetos();
   return (
     <>
-      <Hero projeto={projetos[0]} evento={splitEventos().proximos[0]} />
-      <Chamadas />
+      <Hero projeto={projetos[0]} />
       <Projetos projetos={projetos.slice(0, 3)} />
+      <Agenda proximos={splitEventos().proximos} />
       <Curso />
       <Professores professores={getProfessores()} />
       <Participar />

@@ -5,7 +5,7 @@ import type { Projeto } from "@/lib/schemas";
 
 export function Projetos({ projetos }: { projetos: Entry<Projeto>[] }) {
   return (
-    <section id="projetos" className="pb-24 sm:pb-32">
+    <section id="projetos" className="py-24 sm:py-32">
       <Container>
         <SectionHeader
           eyebrow="Nasceu em Jacobina"
