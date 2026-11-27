@@ -3,64 +3,107 @@ import { Button, Container, SectionHeader } from "@/components/ui";
 import { tiposEvento } from "@/config/site";
 import type { Entry } from "@/lib/content";
 import type { Evento } from "@/lib/schemas";
-import { formatEventoData, formatEventoSelo, formatMesAno } from "@/lib/format";
+import { formatEventoData, formatEventoSelo } from "@/lib/format";
 
 /*
- * Agenda: eventos são raros (1–2 por ano). A seção só existe quando há evento agendado,
- * com destaque médio — no fluxo da página, depois dos projetos.
+ * Agenda (eventos são raros, 1–2 por ano). Só aparece quando há evento agendado.
+ * - 1 evento: cartão grande, sozinho.
+ * - 2+ eventos: os 3 próximos — o mais próximo em destaque, os outros dois em cartões menores.
  */
+
+function Selo({ evento, size }: { evento: Entry<Evento>; size: "lg" | "md" | "sm" }) {
+  const { topo, base } = formatEventoSelo(evento);
+  const box = { lg: "h-36 w-36 rounded-[2rem]", md: "h-28 w-28 rounded-3xl", sm: "h-16 w-16 rounded-2xl" }[size];
+  const top = {
+    lg: evento.dataPrevista ? "text-5xl" : "text-6xl",
+    md: evento.dataPrevista ? "text-4xl" : "text-5xl",
+    sm: evento.dataPrevista ? "text-xl" : "text-2xl",
+  }[size];
+  return (
+    <div
+      className={`grid shrink-0 place-content-center bg-gold text-center text-ink shadow-[0_10px_40px_-10px_rgb(245_179_1/0.6)] ${box}`}
+    >
+      <span className={`font-display font-bold uppercase leading-none ${top}`}>{topo}</span>
+      <span className={`mt-1 font-semibold uppercase ${size === "sm" ? "text-[0.65rem]" : "text-sm"}`}>{base}</span>
+    </div>
+  );
+}
+
+function Destaque({ evento, grande }: { evento: Entry<Evento>; grande: boolean }) {
+  return (
+    <article className="relative h-full overflow-hidden rounded-3xl bg-ink-2 text-paper ring-1 ring-white/10">
+      <div className="night-glow pointer-events-none absolute inset-0 opacity-70" aria-hidden />
+      <div
+        className={`relative grid h-full gap-8 sm:grid-cols-[auto_1fr] sm:items-center ${
+          grande ? "p-8 sm:gap-14 sm:p-14 lg:p-16" : "p-8 sm:gap-10 sm:p-10"
+        }`}
+      >
+        <Selo evento={evento} size={grande ? "lg" : "md"} />
+        <div className="min-w-0">
+          <p className="text-sm text-paper/55">
+            {tiposEvento[evento.tipo]} · {formatEventoData(evento)} · {evento.local}
+          </p>
+          <h3
+            className={`mt-2 font-display font-bold tracking-tight text-balance ${
+              grande ? "text-4xl sm:text-5xl lg:text-6xl" : "text-3xl sm:text-4xl"
+            }`}
+          >
+            {evento.titulo}
+          </h3>
+          <p className={`mt-4 max-w-2xl text-paper/70 ${grande ? "text-lg sm:text-xl" : ""}`}>{evento.resumo}</p>
+          <div className="mt-8 flex flex-wrap items-center gap-3">
+            <Button href={`/eventos/${evento.slug}/`}>Saiba mais</Button>
+            {evento.inscricao && (
+              <Button href={evento.inscricao} variant="ghost" external>
+                Fazer inscrição
+              </Button>
+            )}
+          </div>
+        </div>
+      </div>
+    </article>
+  );
+}
+
+function Compacto({ evento }: { evento: Entry<Evento> }) {
+  return (
+    <Link
+      href={`/eventos/${evento.slug}/`}
+      className="group flex h-full gap-5 rounded-3xl bg-white p-6 ring-1 ring-line transition-all hover:-translate-y-0.5 hover:shadow-xl hover:shadow-ink/5"
+    >
+      <Selo evento={evento} size="sm" />
+      <div className="min-w-0">
+        <p className="text-sm text-mute">{tiposEvento[evento.tipo]}</p>
+        <h3 className="mt-1 font-display text-xl font-semibold leading-snug group-hover:text-indigo-600">{evento.titulo}</h3>
+        <p className="mt-1 text-sm text-mute">{formatEventoData(evento)}</p>
+      </div>
+    </Link>
+  );
+}
+
 export function Agenda({ proximos }: { proximos: Entry<Evento>[] }) {
-  const [proximo, ...demais] = proximos;
-  if (!proximo) return null;
-  const selo = formatEventoSelo(proximo);
+  if (!proximos.length) return null;
+  const [primeiro, ...seguintes] = proximos.slice(0, 3);
+  const unico = seguintes.length === 0;
 
   return (
     <section id="agenda" className="pb-24 sm:pb-32">
       <Container>
-        <SectionHeader eyebrow="Agenda" title="Próximo encontro" />
-        <article className="relative overflow-hidden rounded-3xl bg-ink-2 text-paper ring-1 ring-white/10">
-          <div className="night-glow pointer-events-none absolute inset-0 opacity-70" aria-hidden />
-          <div className="relative grid gap-8 p-8 sm:grid-cols-[auto_1fr] sm:items-center sm:gap-10 sm:p-10">
-            <div className="grid h-28 w-28 place-content-center rounded-3xl bg-gold text-center text-ink shadow-[0_10px_40px_-10px_rgb(245_179_1/0.6)]">
-              <span className={`font-display font-bold uppercase leading-none ${proximo.dataPrevista ? "text-4xl" : "text-5xl"}`}>
-                {selo.topo}
-              </span>
-              <span className="mt-1 text-sm font-semibold uppercase">{selo.base}</span>
+        <SectionHeader eyebrow="Agenda" title={unico ? "Próximo encontro" : "Próximos encontros"} />
+        {unico ? (
+          <Destaque evento={primeiro} grande />
+        ) : (
+          <div className="grid gap-4 lg:grid-cols-3">
+            <div className="lg:col-span-2">
+              <Destaque evento={primeiro} grande={false} />
             </div>
-            <div className="min-w-0">
-              <p className="text-sm text-paper/55">
-                {tiposEvento[proximo.tipo]} · {formatEventoData(proximo)} · {proximo.local}
-              </p>
-              <h3 className="mt-2 font-display text-3xl font-bold tracking-tight text-balance sm:text-4xl">
-                {proximo.titulo}
-              </h3>
-              <p className="mt-3 max-w-2xl text-paper/70">{proximo.resumo}</p>
-              <div className="mt-7 flex flex-wrap items-center gap-x-6 gap-y-3">
-                <Button href={`/eventos/${proximo.slug}/`}>Saiba mais</Button>
-                {proximo.inscricao && (
-                  <Button href={proximo.inscricao} variant="ghost" external>
-                    Fazer inscrição
-                  </Button>
-                )}
-              </div>
+            <div className="grid gap-4">
+              {seguintes.map((e) => (
+                <Compacto key={e.slug} evento={e} />
+              ))}
             </div>
           </div>
-
-          {demais.length > 0 && (
-            <div className="relative border-t border-white/10 px-8 py-5 sm:px-10">
-              <ul className="flex flex-col gap-2 text-sm sm:flex-row sm:flex-wrap sm:gap-x-8">
-                {demais.slice(0, 2).map((e) => (
-                  <li key={e.slug}>
-                    <Link href={`/eventos/${e.slug}/`} className="text-paper/75 hover:text-paper">
-                      <span className="font-mono text-xs text-sky-300">{e.dataPrevista ? formatMesAno(e.data) : formatEventoData(e)}</span>{" "}
-                      <span className="font-medium">{e.titulo}</span> →
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-        </article>
+        )}
       </Container>
     </section>
   );
