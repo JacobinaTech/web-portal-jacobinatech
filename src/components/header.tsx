@@ -32,7 +32,7 @@ export function Header() {
       }`}
     >
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5 sm:h-20 sm:px-8">
-        <Link href="/" aria-label="Jacobina.Tech — início" onClick={close}>
+        <Link href="/" aria-label="ages.tech — início" onClick={close}>
           <Logo />
         </Link>
 
