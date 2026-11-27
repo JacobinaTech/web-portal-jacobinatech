@@ -11,8 +11,8 @@ export function Hero({ projeto }: { projeto?: { titulo: string } }) {
       <Container className="relative grid items-center gap-12 pb-24 pt-32 sm:pb-32 sm:pt-40 lg:grid-cols-[1fr_1.05fr] lg:gap-6">
         <div>
           <Eyebrow dark>Jacobina e Piemonte da Diamantina</Eyebrow>
-          <h1 className="mt-7 font-display text-[clamp(2.75rem,6vw,5.25rem)] font-bold leading-[1.02] tracking-[-0.035em]">
-            A cena tech de <span className="text-gradient">Jacobina</span> começa aqui.
+          <h1 className="mt-7 font-display text-[clamp(2.5rem,5.2vw,4.5rem)] font-bold leading-[1.02] tracking-[-0.035em]">
+            Tecnologia que transforma <span className="text-gradient">Jacobina</span>.
           </h1>
           <div className="mt-8">
             <AccentBar />
