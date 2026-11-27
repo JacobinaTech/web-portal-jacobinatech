@@ -3,7 +3,7 @@ import { LogoMark } from "./logo";
 
 /**
  * Composição do hero: cartões de UI translúcidos conectados a um nó central por linhas
- * tracejadas — a "arquitetura" da cena tech. Coordenadas no espaço 600×520 (SVG e cartões
+ * tracejadas — a "arquitetura" da comunidade. Coordenadas no espaço 600×520 (SVG e cartões
  * em % do mesmo espaço, então tudo escala junto).
  *
  * Quando houver uma foto real dos estudantes, passe `photo` (ex.: "/home/estudantes.jpg"):
@@ -110,7 +110,7 @@ export function HeroConstellation({ projeto, photo }: Props) {
       {/* Código */}
       <Glass className="right-0 top-0 w-[38%] font-mono text-[10px]" delay="0.6s">
         <pre className="whitespace-pre">
-          <span className="text-violet-300">const</span> cena = {"{"}
+          <span className="text-violet-300">const</span> comunidade = {"{"}
           {"\n"}  cidade: <span className="text-amber-300">&quot;Jacobina&quot;</span>,
           {"\n"}  modo: <span className="text-amber-300">&quot;construir&quot;</span>,
           {"\n"}{"}"};

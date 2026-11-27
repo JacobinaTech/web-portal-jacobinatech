@@ -19,7 +19,7 @@ const portas = [
   },
   {
     quem: "Já trabalha com TI",
-    oque: "Palestre, seja mentor e ajude a cena local a crescer junto com você.",
+    oque: "Palestre, seja mentor e ajude a comunidade local a crescer junto com você.",
     href: contactHref,
     cta: "Quero contribuir",
   },
@@ -29,7 +29,7 @@ export function Participar() {
   return (
     <section id="participar" className="border-t border-line bg-white py-24 sm:py-32">
       <Container>
-        <SectionHeader eyebrow="Participar" title="Tem lugar para você na cena." />
+        <SectionHeader eyebrow="Participar" title="Tem lugar para você aqui." />
         <div className="grid gap-10 md:grid-cols-3 md:gap-0 md:divide-x md:divide-line">
           {portas.map((p) => (
             <div key={p.quem} className="flex flex-col md:px-10 md:first:pl-0 md:last:pr-0">
