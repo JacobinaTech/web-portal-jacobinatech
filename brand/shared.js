@@ -16,9 +16,9 @@ export const icon = (size, id = "i") => `
   <rect x="24" y="27.5" width="12" height="4" rx="2" fill="url(#${id}au)"/>
 </svg>`;
 
-// Wordmark "ages■tech".
+// Wordmark "ads■tech".
 export const wordmark = (px) => `
-<span style="font:700 ${px}px 'Space Grotesk';letter-spacing:-.04em;color:#f7f5ef;white-space:nowrap">ages<span style="display:inline-block;width:.26em;height:.26em;background:#f5b301;border-radius:3px;margin:0 .04em"></span><span class="grad">tech</span></span>`;
+<span style="font:700 ${px}px 'Space Grotesk';letter-spacing:-.04em;color:#f7f5ef;white-space:nowrap">ads<span style="display:inline-block;width:.26em;height:.26em;background:#f5b301;border-radius:3px;margin:0 .04em"></span><span class="grad">tech</span></span>`;
 
 // Silhueta da Serra de Jacobina em linhas de contorno (igual a src/components/serra.tsx).
 export function serra(w, h, lines = 9) {
