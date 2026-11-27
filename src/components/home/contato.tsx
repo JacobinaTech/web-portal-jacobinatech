@@ -16,7 +16,7 @@ export function Contato() {
         <div>
           <Eyebrow dark>Contato</Eyebrow>
           <h2 className="mt-6 font-display text-4xl font-bold tracking-[-0.03em] text-balance sm:text-6xl">
-            Vamos construir a cena <span className="text-gradient">juntos</span>.
+            Vamos construir isso <span className="text-gradient">juntos</span>.
           </h2>
           <div className="mt-8">
             <AccentBar />
