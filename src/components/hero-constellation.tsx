@@ -111,7 +111,7 @@ export function HeroConstellation({ projeto, photo }: Props) {
       <Glass className="right-0 top-0 w-[38%] font-mono text-[10px]" delay="0.6s">
         <pre className="whitespace-pre">
           <span className="text-violet-300">const</span> comunidade = {"{"}
-          {"\n"}  cidade: <span className="text-amber-300">&quot;Jacobina&quot;</span>,
+          {"\n"}  regiao: <span className="text-amber-300">&quot;Piemonte&quot;</span>,
           {"\n"}  modo: <span className="text-amber-300">&quot;construir&quot;</span>,
           {"\n"}{"}"};
           {"\n\n"}app.<span className="text-sky-300">get</span>(<span className="text-amber-300">&quot;/agenda&quot;</span>, listar);
